@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Now Assist — Product Hierarchy</title>
+  <style>
+    :root {
+      --green:    #63DF4E;  /* Wasabi Green */
+      --green-d:  #4EC03B;
+      --green-l:  #85E873;
+      --bg:       #032D42;  /* Infinite Blue */
+      --surface:  #043A52;
+      --card:     #054B68;
+      --card2:    #065A7D;
+      --border:   #0A6285;
+      --border2:  #0D7299;
+      --text:     #E8EEF4;
+      --muted:    #7A9BAD;
+      --blue:     #4FC3F7;
+      --purple:   #9B7FD4;
+      --orange:   #F5A623;
+      --teal:     #2ECFB8;
+      --red:      #F06292;
+      --yellow:   #FFD54F;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'ServiceNow Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 36px 28px 72px;
+    }
+
+    /* ─── HEADER ──────────────────────────────────────── */
+    .header {
+      text-align: center;
+      margin-bottom: 44px;
+    }
+    .header-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 6px 18px 6px 10px;
+      margin-bottom: 18px;
+    }
+    .sn-logo {
+      width: 26px; height: 26px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900; color: #000;
+    }
+    .header-eyebrow span { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .header h1 {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      background: linear-gradient(140deg, #fff 30%, var(--green-l) 70%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .header p { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+    /* ─── WRAPPER ─────────────────────────────────────── */
+    .hierarchy { max-width: 1120px; margin: 0 auto; }
+
+    /* ─── ROOT NODE ───────────────────────────────────── */
+    .root {
+      background: linear-gradient(135deg, #021f2f 0%, #032D42 60%, #022239 100%);
+      border: 2px solid var(--green);
+      border-radius: 18px;
+      padding: 26px 36px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(99,223,78,0.12), 0 8px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .root-tag {
+      display: inline-block;
+      background: var(--green);
+      color: #000;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 11px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .root h2 { font-size: 30px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+    .root h2 em { color: var(--green); font-style: normal; }
+    .root p { font-size: 13px; color: var(--muted); }
+
+    /* ─── LAYER CONNECTORS ────────────────────────────── */
+    .v-line {
+      width: 2px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, var(--green) 0%, var(--border2) 100%);
+    }
+    .v-line.short  { height: 28px; }
+    .v-line.medium { height: 36px; }
+    .v-line.faded  { background: linear-gradient(180deg, var(--border2) 0%, var(--border) 100%); }
+
+    /* ─── LAYER WRAPPER ───────────────────────────────── */
+    .layer {
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 22px 22px 24px;
+      margin-bottom: 0;
+    }
+    .layer-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .layer-label-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .layer-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .layer-num {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* ─── LAYER 1 : FOUNDATION ────────────────────────── */
+    .layer-1 { border-color: var(--border2); }
+    .layer-1 .layer-label-text { color: var(--green); }
+    .layer-1 .layer-num { background: rgba(99,223,78,0.15); color: var(--green); border: 1px solid rgba(99,223,78,0.4); }
+
+    .foundation-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .f-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .f-card:hover { border-color: rgba(99,223,78,0.5); transform: translateY(-1px); }
+    .f-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), transparent);
+    }
+    .f-card .f-icon { font-size: 18px; margin-bottom: 8px; }
+    .f-card h4 { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .f-card p  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── LAYER 2 : BUILD & CONFIGURE ────────────────── */
+    .layer-2 {
+      border-color: var(--blue);
+      border-style: dashed;
+      background: rgba(79,195,247,0.02);
+    }
+    .layer-2 .layer-label-text { color: var(--blue); }
+    .layer-2 .layer-num { background: rgba(79,195,247,0.1); color: var(--blue); border: 1px solid rgba(79,195,247,0.3); }
+
+    .layer-2-note {
+      font-size: 11px;
+      color: var(--blue);
+      background: rgba(79,195,247,0.07);
+      border: 1px solid rgba(79,195,247,0.2);
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .build-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .b-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .b-card-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .b-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .b-card-header h4 { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.3; }
+    .b-card-header p  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .b-card-body { padding: 14px 16px; }
+
+    .b-group { margin-bottom: 12px; }
+    .b-group:last-child { margin-bottom: 0; }
+    .b-group-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+    .b-list { list-style: none; }
+    .b-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .b-list li:last-child { border-bottom: none; }
+    .b-list li .bdot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .b-list li .sub { font-size: 10px; color: var(--muted); display: block; }
+
+    /* ─── LAYER 3 : PRODUCTS ──────────────────────────── */
+    .layer-3 { border-color: var(--border2); }
+    .layer-3 .layer-label-text { color: var(--purple); }
+    .layer-3 .layer-num { background: rgba(155,127,212,0.1); color: var(--purple); border: 1px solid rgba(155,127,212,0.3); }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .p-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .p-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .p-card.open  { border-color: var(--border2); }
+    .p-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .p-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .p-header-text { flex: 1; min-width: 0; }
+    .p-header-text h3 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px; line-height: 1.3; }
+    .p-header-text p  { font-size: 10px; color: var(--muted); }
+    .p-chevron { color: var(--muted); font-size: 12px; transition: transform 0.25s; flex-shrink: 0; }
+    .p-card.open .p-chevron { transform: rotate(180deg); }
+
+    /* ─── HEADER INTERACTION FIX ──────────────────── */
+    .p-header { cursor: pointer; }
+    .p-header:hover { background: rgba(255,255,255,0.03); border-radius: 12px 12px 0 0; transition: background 0.15s; }
+    .p-card.open .p-header:hover { border-radius: 0; }
+
+    /* ─── COLLAPSED PILL STATE ─────────────────────── */
+    .p-card:not(.open) { background: transparent; border-color: transparent; box-shadow: none; border-radius: 8px; }
+    .p-card:not(.open):hover { background: rgba(255,255,255,0.03); border-color: var(--border); }
+    .p-card:not(.open) .p-header { padding: 6px 10px; }
+    .p-card:not(.open) .p-icon { width: 24px; height: 24px; font-size: 13px; border-radius: 5px; }
+    .p-card:not(.open) .p-header-text p { display: none; }
+    .p-card:not(.open) .p-header-text h3 { font-size: 12px; }
+    .p-card:not(.open) .badge { font-size: 8px; padding: 2px 6px; }
+
+    .p-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+    .p-card.open .p-body { display: block; }
+
+    .p-section { margin-bottom: 12px; }
+    .p-section:last-child { margin-bottom: 0; }
+    .p-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .p-section-label .dot-label {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .p-items { list-style: none; }
+    .p-items li {
+      font-size: 11.5px;
+      color: var(--muted);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .p-items li:last-child { border-bottom: none; }
+    .p-items li::before { content: '◆'; font-size: 6px; flex-shrink: 0; }
+
+    /* badges */
+    .badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge-green  { background: rgba(99,223,78,0.15);  color: var(--green-l);  border: 1px solid rgba(99,223,78,0.3); }
+    .badge-blue   { background: rgba(79,195,247,0.12);  color: var(--blue);     border: 1px solid rgba(79,195,247,0.25); }
+    .badge-purple { background: rgba(155,127,212,0.12); color: var(--purple);   border: 1px solid rgba(155,127,212,0.25); }
+    .badge-orange { background: rgba(245,166,35,0.12);  color: var(--orange);   border: 1px solid rgba(245,166,35,0.25); }
+    .badge-teal   { background: rgba(46,207,184,0.12);  color: var(--teal);     border: 1px solid rgba(46,207,184,0.25); }
+    .badge-red    { background: rgba(240,98,146,0.12);  color: var(--red);      border: 1px solid rgba(240,98,146,0.25); }
+    .badge-yellow { background: rgba(255,213,79,0.12);  color: var(--yellow);   border: 1px solid rgba(255,213,79,0.25); }
+
+    /* color helpers */
+    .c-green  { color: var(--green);  }
+    .c-blue   { color: var(--blue);   }
+    .c-purple { color: var(--purple); }
+    .c-orange { color: var(--orange); }
+    .c-teal   { color: var(--teal);   }
+    .c-red    { color: var(--red);    }
+    .c-yellow { color: var(--yellow); }
+    .bg-green  { background: rgba(99,223,78,0.12);  border: 1px solid rgba(99,223,78,0.25); }
+    .bg-blue   { background: rgba(79,195,247,0.10);  border: 1px solid rgba(79,195,247,0.22); }
+    .bg-purple { background: rgba(155,127,212,0.10); border: 1px solid rgba(155,127,212,0.22); }
+    .bg-orange { background: rgba(245,166,35,0.10);  border: 1px solid rgba(245,166,35,0.22); }
+    .bg-teal   { background: rgba(46,207,184,0.10);  border: 1px solid rgba(46,207,184,0.22); }
+    .bg-red    { background: rgba(240,98,146,0.10);  border: 1px solid rgba(240,98,146,0.22); }
+    .bg-yellow { background: rgba(255,213,79,0.10);  border: 1px solid rgba(255,213,79,0.22); }
+
+    /* ─── FOUNDATION LINK CARDS ───────────────────────── */
+    .f-card { cursor: pointer; }
+    .f-card-top { display: flex; align-items: flex-start; gap: 10px; }
+    .f-card-top-content { flex: 1; }
+    .f-link-arrow { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 2px; transition: transform 0.2s; }
+    .f-card:hover .f-link-arrow { transform: translateX(4px); }
+    .f-link-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--green); font-weight: 700; margin-top: 10px; opacity: 0.7; }
+
+    /* ─── DETAIL SECTIONS ─────────────────────────────── */
+    .detail-divider { max-width: 1120px; margin: 52px auto 0; border: none; border-top: 2px solid var(--border2); }
+    .detail-section { max-width: 1120px; margin: 0 auto; padding: 48px 0 52px; scroll-margin-top: 24px; }
+    .detail-section + .detail-section { padding-top: 48px; border-top: 1px solid var(--border); }
+    .detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; gap: 20px; }
+    .detail-header-left { display: flex; align-items: flex-start; gap: 16px; }
+    .detail-icon { font-size: 30px; flex-shrink: 0; margin-top: 2px; }
+    .detail-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .detail-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 560px; }
+    .detail-back { font-size: 11px; color: var(--green); cursor: pointer; background: rgba(99,223,78,0.08); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 6px 14px; white-space: nowrap; flex-shrink: 0; margin-top: 4px; }
+    .detail-back:hover { background: rgba(99,223,78,0.16); }
+
+    /* ─── MODEL PROVIDER OPTIONS ──────────────────────── */
+    .tier-bridge { display: inline-block; font-size: 11px; color: var(--green-l); background: rgba(99,223,78,0.07); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 7px 14px; margin-bottom: 16px; }
+    .tier-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .tier-col {
+      background: linear-gradient(165deg, rgba(4,58,82,0.9) 0%, rgba(3,45,66,0.95) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .tier-col:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .tier-col-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px 14px;
+    }
+    .tier-indicator {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+      flex-shrink: 0;
+      letter-spacing: -0.5px;
+    }
+    .tier-col-head-text { flex: 1; }
+    .tier-meta { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+    .tier-name { font-size: 15px; font-weight: 800; line-height: 1.3; color: #fff; }
+    .tier-col-body {
+      padding: 0 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .tier-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .tier-tag {
+      font-size: 9px; font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-align: center;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: auto;
+    }
+    .tier-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+    .tier-list li {
+      font-size: 11.5px; color: var(--text); opacity: 0.8;
+      padding: 5px 0 5px 16px;
+      position: relative; line-height: 1.45;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .tier-list li:last-child { border-bottom: none; }
+    .tier-list li::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 2px; background: var(--dot, var(--border2)); }
+    .tier-warning {
+      font-size: 11px; color: var(--orange);
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.15);
+      border-radius: 8px;
+      padding: 10px 13px;
+      line-height: 1.5;
+    }
+    .tier-lts {
+      font-size: 11px; color: var(--muted);
+      background: rgba(99,223,78,0.05);
+      border: 1px solid rgba(99,223,78,0.12);
+      border-radius: 8px;
+      padding: 10px 13px;
+      line-height: 1.5;
+    }
+    .tier-providers { display: flex; flex-direction: column; gap: 10px; }
+    .tier-provider-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .tier-picon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .tier-pname { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .tier-pdetail { font-size: 11px; color: var(--muted); line-height: 1.45; }
+    @media (max-width: 900px) { .tier-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .tier-grid { grid-template-columns: 1fr; } }
+
+    /* ─── PROVIDER GOVERNANCE 3-GRID ──────────────────── */
+    .gov3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+    .gov3-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 14px; }
+    .gov3-icon { font-size: 18px; margin-bottom: 7px; display: block; }
+    .gov3-role { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+    .gov3-scope { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
+    .gov3-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── INTEL CAPS (GenAI Controller) ───────────────── */
+    .intel-caps { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
+    .intel-cap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; }
+    .intel-cap-name { font-size: 11px; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+    .intel-cap-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── GOV GROUPS (Control Tower + Orchestrator) ────── */
+    .gov-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .gov-group { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+    .gov-group-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .gov-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .gov-list li { font-size: 11px; color: var(--muted); padding-left: 12px; position: relative; line-height: 1.4; }
+    .gov-list li::before { content: '·'; position: absolute; left: 0; font-size: 14px; line-height: 1; }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      max-width: 1120px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footer a { color: var(--green); text-decoration: none; }
+
+    /* ─── ENTRANCE ANIMATION ──────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .header    { animation: fadeUp 0.5s ease both; }
+    .hierarchy { animation: fadeUp 0.5s ease 0.1s both; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .foundation-grid { grid-template-columns: repeat(2, 1fr); }
+      .build-grid      { grid-template-columns: 1fr; }
+      .product-grid    { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .foundation-grid { grid-template-columns: 1fr; }
+      .product-grid    { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">
+      <div class="sn-logo">SN</div>
+      <span>ServiceNow AI Platform</span>
+    </div>
+    <h1>Now Assist Product Hierarchy</h1>
+    <p>Three layers: the infrastructure that runs it, the tools that build it, and the products that deliver it.</p>
+  </div>
+
+  <div class="hierarchy">
+
+    <!-- ════ ROOT ════ -->
+    <div class="root">
+      <div class="root-tag">GenAI Platform</div>
+      <h2><em>Now Assist</em> by ServiceNow</h2>
+      <p>Conversational, generative, and agentic AI embedded natively across every ServiceNow workflow</p>
+    </div>
+
+    <div class="v-line short"></div>
+
+    <!-- ════ LAYER 1: FOUNDATION ════ -->
+    <div class="layer layer-1">
+      <div class="layer-label">
+        <div class="layer-num">1</div>
+        <div class="layer-label-text">Platform Foundation &nbsp;—&nbsp; Shared Infrastructure</div>
+      </div>
+      <div class="foundation-grid">
+
+        <!-- Model Provider Flexibility -->
+        <div class="f-card" onclick="scrollToDetail('detail-model-providers')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🔄</div>
+              <h4>Model Provider Flexibility</h4>
+              <p>Four provider deployment modes — ServiceNow-native, SN-managed frontier models, BYOK LLM, or BYO LLM. Each skill routes to its own model independently with no platform-wide lock-in.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+        <!-- Generative AI Controller -->
+        <div class="f-card" onclick="scrollToDetail('detail-genai-controller')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🔌</div>
+              <h4>Generative AI Controller</h4>
+              <p>The connection layer to all LLMs. Prompt governance, PII masking via Data Privacy for Now Assist, content moderation via Now Assist Guardian, and provider abstraction.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+        <!-- AI Control Tower -->
+        <div class="f-card" onclick="scrollToDetail('detail-control-tower')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🛡️</div>
+              <h4>AI Control Tower</h4>
+              <p>Platform-wide governance. Monitor usage, configure guardrails, manage content filters, and audit every AI interaction across all products.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+        <!-- AI Agent Orchestrator -->
+        <div class="f-card" onclick="scrollToDetail('detail-orchestrator')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🤝</div>
+              <h4>AI Agent Orchestrator</h4>
+              <p>Coordinates multi-agent workflows. Manages handoffs between agents, resolves conflicts, and tracks state across long-running agentic tasks.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="v-line short faded"></div>
+
+    <!-- ════ LAYER 2: BUILD & CONFIGURE ════ -->
+    <div class="layer layer-2">
+      <div class="layer-label">
+        <div class="layer-num c-blue">2</div>
+        <div class="layer-label-text">Build &amp; Configure &nbsp;—&nbsp; Cross-Product Tools</div>
+      </div>
+      <div class="layer-2-note">↔ These tools extend <strong>any</strong> Now Assist for [X] product below — they are not exclusive to any single workflow</div>
+
+      <div class="build-grid">
+
+        <!-- AI Agent Studio -->
+        <div class="b-card">
+          <div class="b-card-header">
+            <div class="b-icon bg-blue">🤖</div>
+            <div>
+              <h4>AI Agent Studio</h4>
+              <p>Build autonomous AI agents that take action</p>
+            </div>
+          </div>
+          <div class="b-card-body">
+
+            <div class="b-group">
+              <div class="b-group-label c-blue">Agentic Flows</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Multi-step orchestration with AI decision points<span class="sub">Agents reason through steps rather than following fixed scripts</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Flow Designer integration<span class="sub">Agents invoke subflows and flow actions as tools within existing automation</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Human-in-the-loop checkpoints<span class="sub">Pause for human approval before high-impact actions</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-blue">Agents</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Agent Definition &amp; Instructions<span class="sub">Name, goal, persona, behavioral guardrails, and scope</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Memory &amp; Context Window<span class="sub">Maintains conversation state across multi-turn interactions</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Connected Knowledge Sources<span class="sub">KB articles, CMDB, past records, external APIs</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-blue">Tools (Agent Capabilities)</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Record Lookup &amp; Search</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Record Create / Update</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Subflow &amp; Workflow Executor</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Knowledge Search (semantic)</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>REST API &amp; External System Calls</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Custom Script Tool</div></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Now Assist Skill Kit -->
+        <div class="b-card">
+          <div class="b-card-header">
+            <div class="b-icon bg-green">🎯</div>
+            <div>
+              <h4>Now Assist Skill Kit</h4>
+              <p>Build &amp; customize GenAI skills for any product</p>
+            </div>
+          </div>
+          <div class="b-card-body">
+
+            <div class="b-group">
+              <div class="b-group-label c-green">Skills</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Skill Definition<span class="sub">Name, target table, input fields, and output destination</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Input Configuration<span class="sub">Control exactly what context is passed to the LLM</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Output Handling<span class="sub">Write AI response to a field, panel, or notification</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Custom Skill Builder<span class="sub">Author entirely new skills using the Skill Kit SDK</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-green">Prompt Templates</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>System prompt authoring<span class="sub">Set the LLM's role, tone, and knowledge scope</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Dynamic variable injection<span class="sub">Insert live record fields into prompts at runtime</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Prompt locking &amp; cloning<span class="sub">Lock production prompts and create versioned copies without altering live skills</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-green">Skill Configuration</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--green)"></div><div>Enable / disable per skill</div></li>
+                <li><div class="bdot" style="background:var(--green)"></div><div>Audience scoping by role or group</div></li>
+                <li><div class="bdot" style="background:var(--green)"></div><div>User feedback collection (thumbs up/down)</div></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Now Assist Admin -->
+        <div class="b-card">
+          <div class="b-card-header">
+            <div class="b-icon bg-orange">⚡</div>
+            <div>
+              <h4>Now Assist Admin</h4>
+              <p>Govern, monitor &amp; configure across all products</p>
+            </div>
+          </div>
+          <div class="b-card-body">
+
+            <div class="b-group">
+              <div class="b-group-label c-orange">Skill Management</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Skill List — master on/off controls<span class="sub">One place to activate or deactivate any skill</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Skill Status tracking<span class="sub">Active, Not Started, or Paused per skill</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Guided Setup Wizard<span class="sub">Step-by-step activation flow for each skill</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-orange">Data Privacy</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Sensitive Data Masking<span class="sub">PII redaction before prompts reach any LLM via Data Privacy for Now Assist</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Data residency governance<span class="sub">AI Control Tower policies enforce compliance with data residency requirements</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Data sharing opt-out<span class="sub">Users opt out of AI data sharing; role-based access controls panel visibility</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-orange">Analytics &amp; Models</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>LLM configuration per skill<span class="sub">Select model provider, version, and endpoint</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Usage analytics dashboard<span class="sub">Assist consumption, invocation counts, entitlement tracking</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Quality monitoring<span class="sub">Aggregate feedback scores and response quality trends</span></div>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /build-grid -->
+    </div><!-- /layer-2 -->
+
+    <div class="v-line short faded"></div>
+
+    <!-- ════ LAYER 3: NOW ASSIST FOR [X] ════ -->
+    <div class="layer layer-3">
+      <div class="layer-label">
+        <div class="layer-num c-purple">3</div>
+        <div class="layer-label-text">Now Assist for [X] &nbsp;—&nbsp; Workflow-Specific Products &nbsp;(click to expand OOTB skills &amp; agents)</div>
+      </div>
+
+      <div class="product-grid">
+
+        <!-- ITSM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-green" style="font-size:18px">⚙️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for ITSM</h3>
+              <p>IT Service Management — most mature Now Assist offering</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-green"><div class="dot-label" style="background:var(--green)"></div>OOTB AI Agents &amp; Agentic Workflows</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">Investigate &amp; Resolve Incidents — AI agent collection that triages and works incidents</li>
+                <li style="color:var(--text)">Incident Categorization — identifies category, subcategory, and affected CI</li>
+                <li style="color:var(--text)">Post-Incident Review Generation — produces full post-incident reviews with impact and action items</li>
+                <li style="color:var(--text)">AI Major Incident Manager — coordinates major incident response</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-green"><div class="dot-label" style="background:var(--green)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Incident Summarization</li>
+                <li>Resolution Notes Generation</li>
+                <li>Now Assist in AI Search (knowledge Q&amp;A)</li>
+                <li>Chat Reply Recommendation</li>
+                <li>Now Assist in Virtual Agent</li>
+                <li>Change Summarization</li>
+                <li>Chat Summarization</li>
+                <li>Knowledge Article Generation</li>
+                <li>Activity Response Generation (Requests / Requested Items)</li>
+                <li>Write with Now Assist</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- HRSD -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-purple">👥</div>
+            <div class="p-header-text">
+              <h3>Now Assist for HRSD</h3>
+              <p>HR Service Delivery — employee experience AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>OOTB AI Agents &amp; Agentic Workflows</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">Resolve Non-Critical HR Cases — agentic workflow (criticality detection, search, notification, record management)</li>
+                <li style="color:var(--text)">High Volume HR Request Agents — Time Off, Holiday Calendar, Total Rewards, Profile Info, Expense Details, Personal Info Updates, Performance Feedback, Benefits</li>
+                <li style="color:var(--text)">Generate Onboarding Ramp-Up Plan — creates personalized onboarding plans for managers</li>
+                <li style="color:var(--text)">Now Assist Voice Agent — employee self-service phone interactions</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>HR Case Summarization</li>
+                <li>Now Assist in AI Search (HR knowledge)</li>
+                <li>Resolution Notes Generation</li>
+                <li>Chat Summarization</li>
+                <li>Knowledge Base Generation</li>
+                <li>Email Reply Recommendation</li>
+                <li>ER Interview Summarizer</li>
+                <li>Sentiment Analysis</li>
+                <li>Journey Summarization for Managers</li>
+                <li>Now Assist in Virtual Agent</li>
+                <li>Write with Now Assist</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-teal">💬</div>
+            <div class="p-header-text">
+              <h3>Now Assist for CSM</h3>
+              <p>Customer Service Management — agent &amp; customer AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>OOTB AI Agents &amp; Agentic Workflows</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">Triage Cases — agentic workflow for case routing and prioritization</li>
+                <li style="color:var(--text)">Troubleshooting Steps Identification — recommends resolution steps from context</li>
+                <li style="color:var(--text)">Provide Customer 360 — AI agent collection for full customer context</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Case Summarization</li>
+                <li>Chat Reply Recommendations</li>
+                <li>Email Reply Recommendations</li>
+                <li>Now Assist in Virtual Agent (customer-facing)</li>
+                <li>Chat Summarization &amp; Wrap-up Generation</li>
+                <li>Call Summarization</li>
+                <li>Resolution Notes Generation</li>
+                <li>Knowledge Generation</li>
+                <li>Suggested Steps Generation</li>
+                <li>Service Recommendations for Interactions</li>
+                <li>Sentiment Analysis</li>
+                <li>Activity Response Generation</li>
+                <li>Now Assist for Portal Case Creation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Creator / App Engine -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-blue">⚡</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Creator</h3>
+              <p>App Engine — AI-assisted low-code development</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>OOTB AI Agents</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">Build Agent — autonomous developer AI agent in the IDE</li>
+                <li style="color:var(--text)">ATF Troubleshooting Agent — analyzes failed tests and provides remediation</li>
+                <li style="color:var(--text)">UI Builder Agent — contextual assistance within UI Builder</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Code Generation (Code Assist, AutoComplete, Edit, Explain)</li>
+                <li>Flow Generation — creates multi-step flows from text descriptions</li>
+                <li>Flow Generation with Images</li>
+                <li>Flow Summarization</li>
+                <li>Flow Recommendations</li>
+                <li>Test Generation (ATF tests from natural language)</li>
+                <li>UI Generation — generates full UI experiences from text</li>
+                <li>Application Generation — conversational app building</li>
+                <li>App Summarization</li>
+                <li>Playbook Generation</li>
+                <li>Catalog Item Generation</li>
+                <li>Spoke Generation — connects systems using API docs</li>
+                <li>Mobile Card Generation</li>
+                <li>Data Visualization / Analytics Generation</li>
+                <li>Data Binding Generation</li>
+                <li>Experience Generation</li>
+                <li>Event Generation</li>
+                <li>Client Script Summarization</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SecOps -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-red">🛡️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Security Ops</h3>
+              <p>Security Incident Response &amp; Vulnerability Response</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-red"><div class="dot-label" style="background:var(--red)"></div>OOTB AI Agents</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">Security Incident Wrap-Up Generator</li>
+                <li style="color:var(--text)">Email Generation Agent</li>
+                <li style="color:var(--text)">Response Task Creation Agent</li>
+                <li style="color:var(--text)">Observable Analysis &amp; Summarization Agent</li>
+                <li style="color:var(--text)">Observable Blocking Agent</li>
+                <li style="color:var(--text)">Assess Vulnerability Exposure Agent (VR)</li>
+                <li style="color:var(--text)">Analyze Vulnerability Remediation Status Agent (VR)</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-red"><div class="dot-label" style="background:var(--red)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Security Incident Summarization</li>
+                <li>Resolution Notes / Closure Notes Generation</li>
+                <li>Post-Incident Analysis (root cause, impact, lessons learned)</li>
+                <li>Recommended Actions (containment, remediation, escalation)</li>
+                <li>Security Operations Metrics Analysis</li>
+                <li>Correlation Insights</li>
+                <li>Shift Handover Support</li>
+                <li>Natural Language Q&amp;A (Now Assist panel)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ITOM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-orange">🔍</div>
+            <div class="p-header-text">
+              <h3>Now Assist for ITOM</h3>
+              <p>IT Operations Management — alert &amp; event AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>OOTB AI Agents</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">AI Agents for AIOps — Triage &amp; Analyze Alerts, Analyze Alert Impact</li>
+                <li style="color:var(--text)">Noise Deflector AI Agent</li>
+                <li style="color:var(--text)">Alert Information Retriever AI Agent</li>
+                <li style="color:var(--text)">Alert History Analyzer AI Agent</li>
+                <li style="color:var(--text)">AI Agent for Discovery (certificate renewal management)</li>
+                <li style="color:var(--text)">AI Agent for Service Mapping (change impact analysis)</li>
+                <li style="color:var(--text)">AI Agent for MID Server (diagnostics &amp; troubleshooting)</li>
+                <li style="color:var(--text)">AI Agent for ACC (error troubleshooting)</li>
+                <li style="color:var(--text)">AI Agents for HLA (log field classification, business context mapping)</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Alert Analysis (alert briefings, root cause insights, remediation suggestions)</li>
+                <li>Alert Investigation (historical incidents for resolution strategies)</li>
+                <li>Alert Description Generation</li>
+                <li>Alert Group Analysis (CI-based and temporal)</li>
+                <li>Noise Alert Classification (LLM-based triage)</li>
+                <li>Resolution Insights (similar past resolutions)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-purple">📊</div>
+            <div class="p-header-text">
+              <h3>Now Assist for SPM</h3>
+              <p>Strategic Portfolio Management — planning AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>OOTB AI Agents</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">Monitor Project Tasks — autonomous critical path monitoring agent</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Demand Summarization</li>
+                <li>Identify Similar Demands</li>
+                <li>Conversational Demand Creation</li>
+                <li>Multi Feedback Summarization</li>
+                <li>Doc Summarization (summarize / shorten / elaborate)</li>
+                <li>Write Planning Items (refine text via NACM)</li>
+                <li>Refine Records (elaborate / shorten)</li>
+                <li>Agile Story Generation (epics to user stories)</li>
+                <li>Email Project Summary</li>
+                <li>AI Project Status Reports</li>
+                <li>Project Insights Generation (financial + RIDAC)</li>
+                <li>Goal Insights (AI-predicted status and confidence)</li>
+                <li>Acceptance Criteria Generation</li>
+                <li>Scrum Task Generation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sourcing & Procurement -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-teal">📦</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Sourcing &amp; Procurement</h3>
+              <p>Source-to-Pay GenAI workflow automation</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Multi-turn Catalog Ordering (conversational procurement intake)</li>
+                <li>Conversational Intake (on-catalog, off-catalog, general support)</li>
+                <li>Record Summarization (sourcing requests, purchase requisitions, POs, negotiations, procurement cases, invoices)</li>
+                <li>Now Assist Q&amp;A (AI Search in S2P Workspace)</li>
+                <li>AI Search for Shopping Hub (natural language product search)</li>
+                <li>Intelligent SOW Document Processing</li>
+                <li>Automatic Category Assignment (line-level during SR/PR/PO creation)</li>
+                <li>Continuous Category Audit &amp; Correction</li>
+                <li>Invoice Spend Categorization</li>
+                <li>Procurement Case Sentiment Analysis</li>
+                <li>Email Response Generation</li>
+                <li>AI Canvas for S2P Reporting</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-yellow">⚖️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Legal</h3>
+              <p>Legal Service Delivery &amp; Matter Management AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-section">
+              <div class="p-section-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>OOTB AI Agents</div>
+              <ul class="p-items" style="color:var(--text)">
+                <li style="color:var(--text)">AI Agent for Legal Request Triage — predicts legal category, routes after confirmation</li>
+              </ul>
+            </div>
+            <div class="p-section">
+              <div class="p-section-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>OOTB Skills</div>
+              <ul class="p-items">
+                <li>Legal Request Summarization</li>
+                <li>Matter Summarization</li>
+                <li>Legal Risk Evaluation</li>
+                <li>Now Assist Q&amp;A (Genius Results in Employee Center &amp; Legal Counsel Center)</li>
+                <li>Conversational Intake for Conflict of Interest</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /product-grid -->
+    </div><!-- /layer-3 -->
+
+  </div><!-- /hierarchy -->
+
+  <!-- ════ PLATFORM FOUNDATION DETAIL SECTIONS ════ -->
+  <hr class="detail-divider">
+
+  <!-- Detail: Model Provider Flexibility -->
+  <section class="detail-section" id="detail-model-providers">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🔄</div>
+        <div>
+          <div class="detail-title">Model Provider Flexibility</div>
+          <div class="detail-sub">Four provider deployment modes — ServiceNow-native, SN-managed frontier models, BYOK LLM, or BYO LLM. Each skill routes to its own model independently with no platform-wide lock-in.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <div class="tier-bridge">All provider modes governed by GenAI Controller &mdash; consistent developer experience, centralized policy enforcement</div>
+    <div class="tier-grid" style="margin-top:16px">
+
+      <!-- Now LLM Service -->
+      <div class="tier-col" style="border-top:3px solid var(--green)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(99,223,78,0.12);color:var(--green);border:1px solid rgba(99,223,78,0.3)">SN</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">SN-Native &mdash; ServiceNow Managed</div>
+            <div class="tier-name">Now LLM Service</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">SN-developed and SN-curated models optimized for enterprise workflows. Processed entirely within ServiceNow&rsquo;s platform.</div>
+          <ul class="tier-list">
+            <li style="--dot:var(--green)">Fast summarization, Q&amp;A, content generation</li>
+            <li style="--dot:var(--green)">Multi-step agentic workflows</li>
+            <li style="--dot:var(--green)">Best for: ITSM, HRSD, CSM, App Dev</li>
+          </ul>
+          <div class="tier-lts"><strong>LTS Variant:</strong> Designed for regulated industries. Predictable AI updates, longer model stability windows.</div>
+          <div class="tier-tag" style="background:rgba(99,223,78,0.08);color:var(--green-l);border:1px solid rgba(99,223,78,0.18)">Data stays within ServiceNow &middot; Default provider</div>
+        </div>
+      </div>
+
+      <!-- Managed Frontier Models -->
+      <div class="tier-col" style="border-top:3px solid var(--blue)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(79,195,247,0.12);color:var(--blue);border:1px solid rgba(79,195,247,0.3)">MF</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">SN-Managed &mdash; Frontier Integration</div>
+            <div class="tier-name">Managed Frontier Models</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">SN manages contracts, licensing, API keys, and versioning. Data stays within ServiceNow&rsquo;s platform.</div>
+          <div class="tier-providers">
+            <div class="tier-provider-row">
+              <div class="tier-picon" style="color:var(--blue)">&#9670;</div>
+              <div><div class="tier-pname">Microsoft Azure OpenAI</div><div class="tier-pdetail">GPT-4.1 &amp; GPT-4.1-mini &middot; Developer productivity, complex reasoning</div></div>
+            </div>
+            <div class="tier-provider-row">
+              <div class="tier-picon" style="color:var(--teal)">&#9670;</div>
+              <div><div class="tier-pname">Google Gemini</div><div class="tier-pdetail">2.5 Flash &amp; 2.5 Pro &middot; Incident analysis, security alerts</div></div>
+            </div>
+            <div class="tier-provider-row">
+              <div class="tier-picon" style="color:var(--orange)">&#9670;</div>
+              <div><div class="tier-pname">AWS Claude</div><div class="tier-pdetail">Claude 3.7 Sonnet via Bedrock &middot; Sensitive HR/legal, policy summarization</div></div>
+            </div>
+          </div>
+          <div class="tier-warning">&#9888;&#65039; Some OOTB skills, Agents, and Agentic Workflows do not support third-party providers</div>
+          <div class="tier-tag" style="background:rgba(79,195,247,0.08);color:var(--blue);border:1px solid rgba(79,195,247,0.18)">SN-managed keys &middot; Data stays within ServiceNow</div>
+        </div>
+      </div>
+
+      <!-- BYOK LLM -->
+      <div class="tier-col" style="border-top:3px solid var(--orange)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(245,166,35,0.12);color:var(--orange);border:1px solid rgba(245,166,35,0.3)">BK</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">BYOK &mdash; Customer-Managed Keys</div>
+            <div class="tier-name">BYOK LLM</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">Customer manages their own API keys and credentials with providers. Data flows to customer&rsquo;s provider under their enterprise terms.</div>
+          <ul class="tier-list">
+            <li style="--dot:var(--orange)">Azure OpenAI, OpenAI (direct), Aleph Alpha</li>
+            <li style="--dot:var(--orange)">IBM WatsonX, Google Vertex AI</li>
+            <li style="--dot:var(--orange)">Google Gemini AI Studio, AWS Bedrock</li>
+            <li style="--dot:var(--orange)">OOTB skills supported (limited)</li>
+            <li style="--dot:var(--orange);color:var(--orange)">AI Agents &amp; Agentic Workflows NOT supported</li>
+          </ul>
+          <div class="tier-tag" style="background:rgba(245,166,35,0.08);color:var(--orange);border:1px solid rgba(245,166,35,0.18)">Your keys &middot; Your provider agreement</div>
+        </div>
+      </div>
+
+      <!-- BYO LLM -->
+      <div class="tier-col" style="border-top:3px solid var(--muted)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(122,155,173,0.1);color:var(--muted);border:1px solid rgba(122,155,173,0.25)">YO</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">BYO LLM &mdash; Generic Connector</div>
+            <div class="tier-name">BYO LLM</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">Connect any external or self-hosted model via Generic LLM Connector. On-premise, regional, or proprietary fine-tuned models.</div>
+          <ul class="tier-list">
+            <li style="--dot:var(--muted)">API key + endpoint + transformer script</li>
+            <li style="--dot:var(--muted)">Fallback/failover chain supported</li>
+            <li style="--dot:var(--muted);color:var(--orange)">Limited OOTB skills &amp; custom skills; AI Agents NOT supported</li>
+          </ul>
+          <div class="tier-tag" style="background:rgba(122,155,173,0.06);color:var(--muted);border:1px solid rgba(122,155,173,0.15)">Your model &middot; Your infrastructure</div>
+        </div>
+      </div>
+
+    </div>
+    <div style="margin-top:28px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px">Provider Governance</div>
+      <div class="gov3-grid">
+        <div class="gov3-card" style="border-top:3px solid var(--green)">
+          <span class="gov3-icon">🛡️</span>
+          <div class="gov3-role">AI Stewards</div>
+          <div class="gov3-scope">AI Control Tower</div>
+          <div class="gov3-desc">Define enterprise-wide approved providers, data routing rules, fallback logic, and regional compliance policies.</div>
+        </div>
+        <div class="gov3-card" style="border-top:3px solid var(--blue)">
+          <span class="gov3-icon">⚙️</span>
+          <div class="gov3-role">Administrators</div>
+          <div class="gov3-scope">Now Assist Admin Console</div>
+          <div class="gov3-desc">Assign approved providers at instance, functional group, or individual skill level.</div>
+        </div>
+        <div class="gov3-card" style="border-top:3px solid var(--purple)">
+          <span class="gov3-icon">🔧</span>
+          <div class="gov3-role">Developers</div>
+          <div class="gov3-scope">Now Assist Skill Kit</div>
+          <div class="gov3-desc">Select providers per custom skill without managing external integrations.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detail: Generative AI Controller -->
+  <section class="detail-section" id="detail-genai-controller">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🔌</div>
+        <div>
+          <div class="detail-title">Generative AI Controller</div>
+          <div class="detail-sub">The connection layer between Now Assist and all LLM providers. Every AI call flows through the Controller for prompt governance, data privacy, content moderation, and provider routing.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <div class="intel-caps">
+      <div class="intel-cap">
+        <div class="intel-cap-name">Prompt Management</div>
+        <div class="intel-cap-desc">Templates with dynamic variable injection via mustache syntax. Lock production prompts and clone for iteration.</div>
+      </div>
+      <div class="intel-cap">
+        <div class="intel-cap-name">Data Privacy for Now Assist</div>
+        <div class="intel-cap-desc">PII masking before prompts reach any LLM. OOTB patterns for SSNs, credit cards, emails, phone numbers, national IDs. Works with all providers.</div>
+      </div>
+      <div class="intel-cap">
+        <div class="intel-cap-name">Now Assist Guardian</div>
+        <div class="intel-cap-desc">Content moderation across 16 categories including toxicity, bias, and false advice. Opt-in per workflow &mdash; admins enable on configured skills.</div>
+      </div>
+      <div class="intel-cap">
+        <div class="intel-cap-name">LLM Provider Routing</div>
+        <div class="intel-cap-desc">Pre-built Integration Hub connectors per provider. Swap models at the skill, skill group, or instance level without code changes.</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:4px">Skills and agents are written once. Which model executes them is a configuration decision managed through Now Assist Admin. PII masking, content filtering, and audit logging apply across all providers.</p>
+  </section>
+
+  <!-- Detail: AI Control Tower -->
+  <section class="detail-section" id="detail-control-tower">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🛡️</div>
+        <div>
+          <div class="detail-title">AI Control Tower</div>
+          <div class="detail-sub">Platform-wide governance. Monitor usage, configure guardrails, manage content filters, and audit every AI interaction across all products.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Centralized command center for governing all AI assets &mdash; including non-ServiceNow AI. Auto-discovers from AWS Bedrock and Azure AI Foundry; stores in CMDB via CSDM 5.</p>
+    <div class="gov-groups">
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--teal)">Inventory &amp; Discovery</div>
+        <ul class="gov-list">
+          <li>Automated AI asset catalog (agents, models, datasets, workflows)</li>
+          <li>Auto-discovers from ServiceNow, AWS Bedrock, Azure AI Foundry</li>
+          <li>CMDB-backed (CSDM 5) with AI-specific CI classes</li>
+        </ul>
+      </div>
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--teal)">Risk &amp; Compliance</div>
+        <ul class="gov-list">
+          <li>EU AI Act conformity assessment, NIST AI RMF, ISO/IEC 42001</li>
+          <li>Data privacy controls supporting GDPR and HIPAA requirements</li>
+          <li>Bias detection and fairness audits</li>
+        </ul>
+      </div>
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--teal)">Policy Enforcement</div>
+        <ul class="gov-list">
+          <li>Real-time guardrails (block, log, fallback routing)</li>
+          <li>Role-based access control</li>
+          <li>Model provider approval with audit trail</li>
+          <li>Lifecycle gates: New &rarr; Assess &rarr; Build/Test &rarr; Deploy &rarr; Operate &rarr; Retire</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detail: AI Agent Orchestrator -->
+  <section class="detail-section" id="detail-orchestrator">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🤝</div>
+        <div>
+          <div class="detail-title">AI Agent Orchestrator</div>
+          <div class="detail-sub">Coordinates multi-agent workflows. Manages handoffs between agents, resolves conflicts, and tracks state across long-running agentic tasks.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Runtime coordination layer managing how multiple agents collaborate &mdash; ensuring reliability and full auditability on every multi-agent execution.</p>
+    <div class="gov-groups">
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--blue)">Coordination</div>
+        <ul class="gov-list">
+          <li>Task routing to specialist agents</li>
+          <li>Three planner strategies: Base (linear), ReActive (iterative), Batch (parallel with dependencies)</li>
+          <li>Context passing with full state preservation</li>
+        </ul>
+      </div>
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--blue)">Reliability</div>
+        <ul class="gov-list">
+          <li>Error management and re-routing of failed tasks</li>
+          <li>Human-in-the-loop checkpoint management</li>
+          <li>Escalation triggers based on time, action count, or sentiment</li>
+        </ul>
+      </div>
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--blue)">Interoperability</div>
+        <ul class="gov-list">
+          <li>MCP (Model Context Protocol) for external tool connections</li>
+          <li>A2A (Agent-to-Agent) for external AI integration</li>
+          <li>Full execution trace with plan, task, tool, and message-level logging</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>Now Assist — ServiceNow GenAI Portfolio &nbsp;·&nbsp; Zurich Release 2025–2026 &nbsp;·&nbsp;
+      <a href="https://www.servicenow.com/now-assist.html" target="_blank">servicenow.com/now-assist</a>
+    </p>
+  </div>
+
+  <script>
+    function toggle(card) {
+      card.classList.toggle('open');
+    }
+    function scrollToDetail(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
