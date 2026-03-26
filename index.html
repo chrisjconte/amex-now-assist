@@ -463,8 +463,201 @@
     .detail-back { font-size: 11px; color: var(--green); cursor: pointer; background: rgba(99,223,78,0.08); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 6px 14px; white-space: nowrap; flex-shrink: 0; margin-top: 4px; }
     .detail-back:hover { background: rgba(99,223,78,0.16); }
 
+    /* ─── TRUST PANEL v2 — HERO + EXPANDABLE PILLARS ── */
+    .trust-panel {
+      position: relative;
+      background: linear-gradient(165deg, #011a28 0%, #021e2e 50%, #01202f 100%);
+      border: 1px solid rgba(99,223,78,0.12);
+      border-radius: 16px;
+      padding: 0;
+      margin-bottom: 24px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .trust-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(99,223,78,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,223,78,0.015) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none; z-index: 0;
+    }
+    .trust-panel::after {
+      content: '';
+      position: absolute; top: -80px; left: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(99,223,78,0.04) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .trust-hero {
+      position: relative; z-index: 1;
+      padding: 32px 32px 24px;
+      text-align: center;
+    }
+    .trust-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+    .trust-hero-eyebrow svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .trust-hero h3 {
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      margin: 0 auto 10px;
+      max-width: 700px;
+    }
+    .trust-hero h3 em {
+      font-style: normal;
+      background: linear-gradient(130deg, var(--green-l), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .trust-hero p {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .trust-pillars {
+      position: relative; z-index: 1;
+      display: flex;
+      gap: 0;
+      padding: 0 16px 16px;
+    }
+    .trust-pillar {
+      flex: 1;
+      border-radius: 12px;
+      margin: 0 4px;
+      overflow: hidden;
+      transition: background 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .trust-pillar:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    }
+    .trust-pillar-head {
+      padding: 16px 18px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    .trust-pillar-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .trust-pillar-head-text { flex: 1; min-width: 0; }
+    .trust-pillar-label {
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 3px;
+    }
+    .trust-pillar-thesis {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .trust-pillar-chevron {
+      font-size: 14px;
+      color: var(--muted);
+      transition: transform 0.3s, color 0.3s;
+      flex-shrink: 0;
+      margin-left: 4px;
+    }
+    .trust-pillar.open .trust-pillar-chevron {
+      transform: rotate(180deg);
+    }
+    .trust-pillar:hover .trust-pillar-chevron { color: var(--text); }
+    .trust-pillar-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1), padding 0.3s;
+      padding: 0 18px;
+    }
+    .trust-pillar.open .trust-pillar-detail {
+      max-height: 500px;
+      padding: 0 18px 18px;
+    }
+    .trust-pillar-list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .trust-pillar-list li {
+      font-size: 11.5px;
+      color: var(--text);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.55;
+      opacity: 0.85;
+    }
+    .trust-pillar-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 7px;
+      width: 5px; height: 5px;
+      border-radius: 1px;
+      background: var(--_dot);
+      transform: rotate(45deg);
+    }
+    .trust-pillar-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 5px 12px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .trust-pillar-action:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .trust-takeaway {
+      position: relative; z-index: 1;
+      margin: 0 16px 0;
+      padding: 14px 20px 16px;
+      border-radius: 0 0 16px 16px;
+      display: flex;
+      align-items: center;
+    }
+    .trust-takeaway p {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 700px) {
+      .trust-pillars { flex-direction: column; }
+      .trust-pillar { margin: 4px 0; }
+    }
+
     /* ─── MODEL PROVIDER OPTIONS ──────────────────────── */
-    .tier-bridge { display: inline-block; font-size: 11px; color: var(--green-l); background: rgba(99,223,78,0.07); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 7px 14px; margin-bottom: 16px; }
+    .tier-bridge { display: block; text-align: center; font-size: 11px; color: var(--green-l); background: rgba(99,223,78,0.07); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 7px 14px; margin-bottom: 16px; }
     .tier-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .tier-col {
       background: linear-gradient(165deg, rgba(4,58,82,0.9) 0%, rgba(3,45,66,0.95) 100%);
@@ -476,12 +669,648 @@
       overflow: hidden;
       transition: border-color 0.25s, box-shadow 0.25s;
     }
+    .tier-col { cursor: pointer; }
     .tier-col:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-    .tier-col-head {
+    .tier-col-head { position: relative; }
+    .tier-col-cta {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 18px 20px 14px;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 0;
+      margin: 0 20px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s, transform 0.3s, color 0.3s;
+    }
+    .tier-col:hover .tier-col-cta {
+      opacity: 1;
+      transform: translateY(0);
+      color: var(--text);
+    }
+    .tier-col-cta::after {
+      content: '';
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 1.5px solid currentColor;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 5h4M5 3v4' stroke='%237A9BAD' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 10px;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .tier-col:hover .tier-col-cta::after {
+      border-color: var(--green);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 5h4M5 3v4' stroke='%2363DF4E' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
+      transform: scale(1.1);
+    }
+    .tier-col-detail { display: none; }
+
+    /* ─── TIER MODAL ─────────────────────────────────── */
+    .tier-modal-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(2,20,30,0.85);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .tier-modal-overlay.active {
+      opacity: 1; pointer-events: all;
+    }
+    .tier-modal {
+      background: linear-gradient(165deg, #032D42 0%, #02253a 100%);
+      border: 1px solid var(--border2);
+      border-radius: 18px;
+      width: 90%; max-width: 560px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 80px rgba(0,0,0,0.3);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      position: relative;
+    }
+    .tier-modal-overlay.active .tier-modal {
+      transform: translateY(0) scale(1);
+    }
+    .tier-modal::-webkit-scrollbar { width: 5px; }
+    .tier-modal::-webkit-scrollbar-track { background: transparent; }
+    .tier-modal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    .tier-modal-header {
+      position: sticky; top: 0; z-index: 2;
+      background: linear-gradient(165deg, #032D42 0%, #02253a 100%);
+      padding: 24px 28px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .tier-modal-close {
+      position: absolute; top: 16px; right: 20px;
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tier-modal-close:hover { background: var(--card); color: var(--text); }
+    .tier-modal-body { padding: 20px 28px 28px; }
+    .tier-detail-group { margin-bottom: 16px; }
+    .tier-detail-group:last-child { margin-bottom: 0; }
+    .tier-detail-label {
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted); margin-bottom: 8px; padding-top: 4px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .tier-detail-text {
+      font-size: 12px; color: var(--text); line-height: 1.65; opacity: 0.9;
+    }
+    .tier-detail-list {
+      list-style: none; padding: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tier-detail-list li {
+      font-size: 11.5px; color: var(--text); opacity: 0.85;
+      padding-left: 14px; position: relative; line-height: 1.55;
+    }
+    .tier-detail-list li::before {
+      content: ''; position: absolute;
+      left: 0; top: 8px;
+      width: 5px; height: 5px;
+      border-radius: 1px; background: var(--border2);
+      transform: rotate(45deg);
+    }
+    /* ─── ARCHITECTURE FLOW DIAGRAMS ──────────────── */
+    .arch-diagram {
+      margin-top: 16px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: linear-gradient(165deg, rgba(1,18,28,0.7), rgba(2,22,34,0.8));
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .arch-diagram-header {
+      padding: 12px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .arch-diagram-header::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--_accent);
+      box-shadow: 0 0 8px var(--_accent);
+    }
+    .arch-diagram-header h5 {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    .arch-diagram-header p {
+      font-size: 8.5px;
+      color: var(--muted);
+      margin: 0;
+      opacity: 0.7;
+      font-style: italic;
+    }
+    .arch-pipeline {
+      padding: 16px;
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      overflow-x: auto;
+      min-width: 0;
+    }
+    .arch-pipeline::-webkit-scrollbar { height: 4px; }
+    .arch-pipeline::-webkit-scrollbar-track { background: transparent; }
+    .arch-pipeline::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    .arch-sn-boundary {
+      flex: 1;
+      min-width: 480px;
+      border: 1.5px solid var(--_accent);
+      border-right-style: dashed;
+      border-radius: 8px 0 0 8px;
+      padding: 22px 14px 14px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.01);
+    }
+    .arch-sn-boundary .arch-boundary-tag {
+      position: absolute;
+      top: -7px;
+      left: 10px;
+      font-size: 6.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 6px;
+      background: linear-gradient(165deg, rgba(1,18,28,1), rgba(2,22,34,1));
+      color: var(--_accent);
+      white-space: nowrap;
+    }
+    .arch-ext-zone {
+      border: 1.5px dashed var(--_accent);
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+      padding: 22px 14px 14px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-width: 130px;
+      background: rgba(255,255,255,0.015);
+    }
+    .arch-ext-zone .arch-boundary-tag {
+      position: absolute;
+      top: -7px;
+      right: 10px;
+      font-size: 6.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 6px;
+      background: linear-gradient(165deg, rgba(1,18,28,1), rgba(2,22,34,1));
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .arch-node {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--card);
+      text-align: center;
+      min-width: 0;
+      flex: 1;
+    }
+    .arch-node-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .arch-node-sub {
+      font-size: 7.5px;
+      color: var(--muted);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .arch-conn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      flex-shrink: 0;
+      min-width: 44px;
+    }
+    .arch-conn-label {
+      font-size: 6.5px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .arch-conn-line {
+      width: 100%;
+      height: 0;
+      border-top: 1.5px solid var(--muted);
+      position: relative;
+    }
+    .arch-conn-line.dashed {
+      border-top-style: dashed;
+    }
+    .arch-conn-line::after {
+      content: '\25B8';
+      position: absolute;
+      right: -2px;
+      top: -6px;
+      font-size: 9px;
+      color: var(--muted);
+      line-height: 1;
+    }
+    .arch-lock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 7.5px;
+      font-weight: 600;
+      color: var(--_accent);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      padding: 3px 8px;
+      margin-top: 10px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .arch-lock-badge::before {
+      content: '\1F512';
+      font-size: 8px;
+    }
+    .arch-region-table {
+      width: 100%;
+      margin-top: 12px;
+      border-collapse: collapse;
+    }
+    .arch-region-table th {
+      font-size: 7.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      padding: 7px 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .arch-region-table td {
+      padding: 7px 10px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 9.5px;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+    .arch-region-table tr:last-child td { border-bottom: none; }
+    .arch-rbadge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .arch-footnote {
+      padding: 8px 16px 12px;
+      font-size: 8px;
+      color: var(--muted);
+      opacity: 0.6;
+      font-style: italic;
+      border-top: 1px solid rgba(255,255,255,0.03);
+    }
+    .arch-providers-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .arch-provider-chip {
+      font-size: 7.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    /* ─── ARCHITECTURE DETAIL MODAL ──────────────── */
+    .arch-modal-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(2,20,30,0.88);
+      backdrop-filter: blur(14px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .arch-modal-overlay.active { opacity: 1; pointer-events: all; }
+    .arch-modal {
+      background: linear-gradient(165deg, #021e2e 0%, #01192a 100%);
+      border: 1px solid var(--border2);
+      border-radius: 18px;
+      width: 94%; max-width: 960px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.7);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      position: relative;
+    }
+    .arch-modal-overlay.active .arch-modal { transform: translateY(0) scale(1); }
+    .arch-modal::-webkit-scrollbar { width: 5px; }
+    .arch-modal::-webkit-scrollbar-track { background: transparent; }
+    .arch-modal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    .arch-modal-head {
+      position: sticky; top: 0; z-index: 2;
+      background: linear-gradient(165deg, #021e2e 0%, #01192a 100%);
+      padding: 22px 28px 14px;
+      border-bottom: 2px solid var(--blue);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .arch-modal-head-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: rgba(79,195,247,0.1);
+      border: 1px solid rgba(79,195,247,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .arch-modal-head-text .arch-modal-meta {
+      font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px;
+    }
+    .arch-modal-head-text .arch-modal-title {
+      font-size: 17px; font-weight: 800; color: #fff;
+    }
+    .arch-modal-close {
+      position: absolute; top: 16px; right: 20px;
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .arch-modal-close:hover { background: var(--card); color: var(--text); }
+    .arch-modal-body { padding: 24px 28px 32px; }
+
+    /* Architecture Diagram Layout */
+    .ad-tls-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9px; font-weight: 600; color: var(--green-l);
+      background: rgba(99,223,78,0.06);
+      border: 1px solid rgba(99,223,78,0.15);
+      border-radius: 6px;
+      padding: 5px 12px;
+      margin-bottom: 16px;
+    }
+    .ad-tls-badge::before { content: '🔒'; font-size: 11px; }
+    .ad-layout {
+      display: grid;
+      grid-template-columns: 1fr 110px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .ad-boundary {
+      border: 1.5px solid;
+      border-radius: 10px;
+      padding: 14px 12px 12px;
+      position: relative;
+      background: rgba(255,255,255,0.01);
+    }
+    .ad-boundary-label {
+      position: absolute;
+      top: -8px;
+      left: 12px;
+      font-size: 7px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 8px;
+      background: linear-gradient(165deg, #021e2e, #01192a);
+      white-space: nowrap;
+    }
+    .ad-cloud-boundary {
+      border-color: rgba(99,223,78,0.2);
+      grid-column: 1 / 3;
+    }
+    .ad-cloud-boundary > .ad-boundary-label { color: var(--green); }
+    .ad-cloud-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ad-instance {
+      border: 1.5px solid rgba(79,195,247,0.2);
+      border-radius: 8px;
+      padding: 12px 10px 10px;
+      position: relative;
+      background: rgba(79,195,247,0.015);
+    }
+    .ad-instance > .ad-boundary-label { color: var(--blue); }
+    .ad-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .ad-step:last-child { margin-bottom: 0; }
+    .ad-step-num {
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      background: rgba(79,195,247,0.1);
+      border: 1px solid rgba(79,195,247,0.25);
+      color: var(--blue);
+      font-size: 9px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ad-step-content {
+      flex: 1; min-width: 0;
+    }
+    .ad-step-title {
+      font-size: 10.5px; font-weight: 700; color: var(--text); line-height: 1.3;
+    }
+    .ad-step-sub {
+      font-size: 8.5px; color: var(--muted); margin-top: 1px; line-height: 1.35;
+    }
+    .ad-gaic-box {
+      border: 1.5px solid rgba(99,223,78,0.2);
+      border-radius: 8px;
+      padding: 12px 10px 10px;
+      position: relative;
+      background: rgba(99,223,78,0.015);
+    }
+    .ad-gaic-box > .ad-boundary-label { color: var(--green); }
+    .ad-sec-layer {
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-top: 8px;
+    }
+    .ad-sec-layer-title {
+      font-size: 8px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--muted); margin-bottom: 6px;
+    }
+    .ad-sec-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 9.5px; color: var(--text);
+    }
+    .ad-sec-item:last-child { border-bottom: none; }
+    .ad-sec-icon {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .ad-sec-detail {
+      font-size: 8px; color: var(--muted); margin-top: 1px;
+    }
+    .ad-gateway-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+      align-self: stretch;
+    }
+    .ad-gw-box {
+      border: 1.5px solid rgba(155,127,212,0.25);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      background: rgba(155,127,212,0.02);
+      position: relative;
+    }
+    .ad-gw-box .ad-boundary-label { color: var(--purple); }
+    .ad-gw-title {
+      font-size: 10px; font-weight: 700; color: var(--purple); margin-bottom: 2px;
+    }
+    .ad-gw-sub {
+      font-size: 8px; color: var(--muted); line-height: 1.35;
+    }
+    .ad-endpoints {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ad-ep-box {
+      border: 1.5px solid;
+      border-radius: 8px;
+      padding: 10px;
+      position: relative;
+    }
+    .ad-ep-box > .ad-boundary-label {
+      font-size: 6.5px;
+    }
+    .ad-ep-title {
+      font-size: 9.5px; font-weight: 700; color: var(--text); margin-bottom: 4px;
+    }
+    .ad-ep-sub {
+      font-size: 8px; color: var(--muted); margin-bottom: 6px; line-height: 1.35;
+    }
+    .ad-ep-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 3px 0;
+      font-size: 9px; color: var(--text);
+    }
+    .ad-ep-dot {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .ad-ep-note {
+      font-size: 7.5px; color: var(--muted); font-style: italic; margin-top: 4px;
+    }
+    .ad-legend {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .ad-legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 8px; color: var(--muted);
+    }
+    .ad-legend-line {
+      width: 20px; height: 0;
+      border-top: 2px solid;
+      flex-shrink: 0;
+    }
+    .ad-legend-line.dashed { border-top-style: dashed; }
+    /* Make trust-col clickable */
+    .trust-col-clickable {
+      cursor: pointer;
+      transition: background 0.2s;
+      border-radius: 8px;
+      padding: 0 16px;
+      margin: 0 -16px;
+      position: relative;
+    }
+    .trust-col-clickable:hover {
+      background: rgba(79,195,247,0.04);
+    }
+    .trust-col-cta {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 10px;
+      font-size: 8px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s, transform 0.3s, color 0.3s;
+    }
+    .trust-col-clickable:hover .trust-col-cta {
+      opacity: 1;
+      transform: translateY(0);
+      color: var(--blue);
+    }
+    @media (max-width: 800px) {
+      .ad-layout { grid-template-columns: 1fr; }
+      .ad-cloud-boundary { grid-column: 1; }
+      .ad-cloud-inner { grid-template-columns: 1fr; }
+    }
+
+    .tier-col-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      padding: 16px 14px 8px;
     }
     .tier-indicator {
       width: 38px; height: 38px;
@@ -491,13 +1320,15 @@
       flex-shrink: 0;
       letter-spacing: -0.5px;
     }
-    .tier-col-head-text { flex: 1; }
-    .tier-meta { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
-    .tier-name { font-size: 15px; font-weight: 800; line-height: 1.3; color: #fff; }
+    .tier-col-head-text { width: 100%; }
+    .tier-meta { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; line-height: 1.4; }
+    .tier-name { font-size: 16px; font-weight: 800; line-height: 1.2; color: #fff; }
     .tier-col-body {
       padding: 0 20px 18px;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 12px;
       flex: 1;
     }
@@ -511,15 +1342,15 @@
       text-transform: uppercase;
       margin-top: auto;
     }
-    .tier-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+    .tier-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; width: 100%; }
     .tier-list li {
       font-size: 11.5px; color: var(--text); opacity: 0.8;
-      padding: 5px 0 5px 16px;
-      position: relative; line-height: 1.45;
+      padding: 5px 0;
+      line-height: 1.45;
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
     .tier-list li:last-child { border-bottom: none; }
-    .tier-list li::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 2px; background: var(--dot, var(--border2)); }
+    .tier-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 2px; background: var(--dot, var(--border2)); margin-right: 8px; vertical-align: middle; }
     .tier-warning {
       font-size: 11px; color: var(--orange);
       background: rgba(245,166,35,0.06);
@@ -527,6 +1358,7 @@
       border-radius: 8px;
       padding: 10px 13px;
       line-height: 1.5;
+      width: 100%;
     }
     .tier-lts {
       font-size: 11px; color: var(--muted);
@@ -535,14 +1367,16 @@
       border-radius: 8px;
       padding: 10px 13px;
       line-height: 1.5;
+      width: 100%;
     }
-    .tier-providers { display: flex; flex-direction: column; gap: 10px; }
+    .tier-providers { display: flex; flex-direction: column; gap: 10px; width: 100%; }
     .tier-provider-row {
       display: flex; align-items: flex-start; gap: 10px;
       padding: 8px 12px;
       background: rgba(255,255,255,0.02);
       border-radius: 8px;
       border: 1px solid rgba(255,255,255,0.04);
+      text-align: left;
     }
     .tier-picon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
     .tier-pname { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
@@ -1859,17 +2693,89 @@
       <a href="https://www.servicenow.com/docs/r/intelligent-experiences/servicenow-large-language-model-now-llm/exploring-large-language-models.html" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product documentation →</a>
       <a href="https://www.servicenow.com/community/now-assist-articles/using-external-llms-with-now-assist-including-byok-byollm/ta-p/3218103" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;margin-left:16px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">BYOK &amp; BYO LLM guide →</a>
     </div>
+
+    <!-- TRUST PANEL -->
+    <div class="trust-panel">
+      <!-- Hero Statement -->
+      <div class="trust-hero">
+        <h3>Enterprise AI, <em>flexible by design</em></h3>
+        <p>Your domain expertise stays on-platform. The LLM is interchangeable &mdash; the intelligence is not. Every AI call is encrypted, isolated, and deleted after inference.</p>
+      </div>
+
+      <!-- Expandable Pillars -->
+      <div class="trust-pillars">
+
+        <!-- VALUE -->
+        <div class="trust-pillar" onclick="togglePillar(this)" style="background:rgba(99,223,78,0.03)">
+          <div class="trust-pillar-head">
+            <div class="trust-pillar-icon" style="background:rgba(99,223,78,0.1);border:1px solid rgba(99,223,78,0.25);color:var(--green)">&#9670;</div>
+            <div class="trust-pillar-head-text">
+              <div class="trust-pillar-label" style="color:var(--green)">Value</div>
+              <div class="trust-pillar-thesis">Built-in AI engine, not bolted on. The platform is the intelligence &mdash; the LLM is the compute layer.</div>
+            </div>
+            <div class="trust-pillar-chevron">&#9662;</div>
+          </div>
+          <div class="trust-pillar-detail">
+            <ul class="trust-pillar-list" style="--_dot:var(--green)">
+              <li>Built-in AI engine &mdash; not bolted on. Powers end-to-end enterprise workflows natively from a single platform</li>
+              <li>Platform-native AI inherits decades of ServiceNow domain context &mdash; workflows, data models, tools, and institutional knowledge are the AI&rsquo;s foundation</li>
+              <li>Flexible LLM layer underneath &mdash; Now LLM Service or any frontier model (Azure OpenAI, Claude, Gemini). The engine adapts; the platform intelligence stays constant</li>
+              <li>Per-skill model routing &mdash; different LLMs for different use cases, swappable without code changes or retraining</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ARCHITECTURE -->
+        <div class="trust-pillar" onclick="openArchModal()" style="background:rgba(79,195,247,0.03)">
+          <div class="trust-pillar-head">
+            <div class="trust-pillar-icon" style="background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);color:var(--blue)">&#9881;</div>
+            <div class="trust-pillar-head-text">
+              <div class="trust-pillar-label" style="color:var(--blue)">Architecture</div>
+              <div class="trust-pillar-thesis">All data stays within ServiceNow&rsquo;s platform boundary. Private endpoints, regional processing, no customer tenant routing.</div>
+            </div>
+            <div class="trust-pillar-chevron" style="transform:none">&#8599;</div>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="trust-pillar" onclick="togglePillar(this)" style="background:rgba(240,98,146,0.03)">
+          <div class="trust-pillar-head">
+            <div class="trust-pillar-icon" style="background:rgba(240,98,146,0.1);border:1px solid rgba(240,98,146,0.25);color:var(--red)">&#128274;</div>
+            <div class="trust-pillar-head-text">
+              <div class="trust-pillar-label" style="color:var(--red)">Security</div>
+              <div class="trust-pillar-thesis">Zero persistence processing. Prompts exist only for the duration of the inference call, then they&rsquo;re gone.</div>
+            </div>
+            <div class="trust-pillar-chevron">&#9662;</div>
+          </div>
+          <div class="trust-pillar-detail">
+            <ul class="trust-pillar-list" style="--_dot:var(--red)">
+              <li>Zero persistence processing &mdash; prompts and responses processed in memory only, deleted immediately after inference. No training, caching, or storage on any compute hub &mdash; Now LLM Service, Azure OpenAI, Gemini, and Claude alike</li>
+              <li>Customer data never used to train models &mdash; Azure OpenAI abuse monitoring disabled; Gemini and Claude use enterprise configurations that prevent model learning</li>
+              <li>Real-time anonymization &mdash; Data Privacy for Now Assist masks sensitive fields (names, emails, phone numbers) with tokens before any LLM call; original values restored only on return to the instance</li>
+              <li>No data commingling &mdash; customer data isolated per customer during inference, even on shared OEM tenancy. Domain-separated instances maintain strict logical isolation with no cross-domain persistence</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="trust-takeaway" style="justify-content:center">
+        <p style="text-align:center">TLS 1.2 encrypted &middot; Zero persistence &middot; No training on customer data &middot; No commingling &middot; Domain separation supported</p>
+      </div>
+    </div>
+
     <div class="tier-bridge">All provider modes governed by GenAI Controller &mdash; consistent developer experience, centralized policy enforcement</div>
     <div class="tier-grid" style="margin-top:16px">
 
       <!-- Now LLM Service -->
-      <div class="tier-col" style="border-top:3px solid var(--green)">
+      <div class="tier-col" style="border-top:3px solid var(--green)" onclick="openTierModal(this)">
         <div class="tier-col-head">
           <div class="tier-indicator" style="background:rgba(99,223,78,0.12);color:var(--green);border:1px solid rgba(99,223,78,0.3)">SN</div>
           <div class="tier-col-head-text">
             <div class="tier-meta">SN-Native &mdash; ServiceNow Managed</div>
             <div class="tier-name">Now LLM Service</div>
           </div>
+          <div class="tier-col-cta">Explore</div>
         </div>
         <div class="tier-col-body">
           <div class="tier-body">SN-developed and SN-curated models optimized for enterprise workflows. Processed entirely within ServiceNow&rsquo;s platform.</div>
@@ -1880,16 +2786,117 @@
           <div class="tier-lts"><strong>LTS Variant:</strong> Designed for regulated industries. Predictable AI updates, longer model stability windows.</div>
           <div class="tier-tag" style="background:rgba(99,223,78,0.08);color:var(--green-l);border:1px solid rgba(99,223,78,0.18)">Data stays within ServiceNow &middot; Default provider</div>
         </div>
+        <div class="tier-col-detail">
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Model Details</div>
+            <div class="tier-detail-text">Purpose-built models trained on enterprise, ITSM, and HR workflow data. No external API calls &mdash; all processing stays entirely within ServiceNow&rsquo;s infrastructure.</div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Licensing</div>
+            <div class="tier-detail-text">Included in Pro Plus licensing &mdash; no additional model costs or per-call charges.</div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">LTS Variant &mdash; For Regulated Industries</div>
+            <ul class="tier-detail-list">
+              <li>Designed for financial services, healthcare, and other regulated sectors</li>
+              <li>Predictable AI updates with longer model stability windows</li>
+              <li>Early access testing for smoother adoption</li>
+              <li>Configured via AI Control Tower or Now Assist settings</li>
+              <li>Select &ldquo;Now LLM Service-LTS&rdquo; as provider for specific skills</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Support</div>
+            <ul class="tier-detail-list">
+              <li>All OOTB skills, AI Agents, and Agentic Workflows fully supported</li>
+              <li>All custom skills fully supported</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Regional Data Processing Architecture</div>
+            <div class="arch-diagram" style="--_accent:var(--green)">
+              <div class="arch-diagram-header">
+                <div>
+                  <h5>Data processed in customer&rsquo;s region</h5>
+                  <p>ServiceNow network boundary, with optional Azure burst within the same Regional DC boundary</p>
+                </div>
+              </div>
+              <div class="arch-pipeline">
+                <div class="arch-sn-boundary" style="border-color:rgba(99,223,78,0.25)">
+                  <span class="arch-boundary-tag">ServiceNow Network Boundary</span>
+                  <div class="arch-node" style="border-color:rgba(99,223,78,0.2)">
+                    <div class="arch-node-label">Customer Glide Instance</div>
+                    <div class="arch-node-sub">Your data in your instance</div>
+                  </div>
+                  <div class="arch-conn">
+                    <div class="arch-conn-label">TLS 1.2</div>
+                    <div class="arch-conn-line"></div>
+                  </div>
+                  <div class="arch-node" style="border-color:rgba(99,223,78,0.35);background:rgba(99,223,78,0.04)">
+                    <div class="arch-node-label" style="color:var(--green)">Regional Compute Hub</div>
+                    <div class="arch-node-sub">Now LLM Service<br>Now LLMs + Open Source LLMs<br>Router / Load Balancer</div>
+                  </div>
+                </div>
+                <div class="arch-conn" style="min-width:38px">
+                  <div class="arch-conn-label" style="color:var(--orange)">Burst</div>
+                  <div class="arch-conn-line dashed"></div>
+                </div>
+                <div class="arch-ext-zone" style="border-color:rgba(122,155,173,0.2);--_accent:var(--muted)">
+                  <span class="arch-boundary-tag">Azure Region DC</span>
+                  <div class="arch-node" style="border-color:rgba(122,155,173,0.15)">
+                    <div class="arch-node-label">Now LLM Service</div>
+                    <div class="arch-node-sub">Now LLMs + Open Source LLMs<br>Same regional boundary</div>
+                  </div>
+                </div>
+              </div>
+              <div class="arch-lock-badge" style="--_accent:var(--green)">All flows TLS 1.2 encrypted in transit &middot; Zero data persistence at LLM layer</div>
+              <div style="padding:4px 16px 12px">
+                <table class="arch-region-table">
+                  <thead>
+                    <tr>
+                      <th>Region</th>
+                      <th>Instance DCs</th>
+                      <th>SN Compute Hub</th>
+                      <th>Azure Burst</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="arch-rbadge" style="background:rgba(99,223,78,0.1);color:var(--green)">AMS</span></td>
+                      <td>CA: YCG/YTZ<br>US: PHX/BWI, AUS/ORD<br>BR: GIG/GRU</td>
+                      <td>YCG/YTZ</td>
+                      <td>US East, US West3</td>
+                    </tr>
+                    <tr>
+                      <td><span class="arch-rbadge" style="background:rgba(79,195,247,0.1);color:var(--blue)">EMEA</span></td>
+                      <td>NL: AMS/DUB<br>UK: CWL/LHR<br>DE: DUS/FRA<br>CH: GVA/ZRH</td>
+                      <td>DUS/FRA</td>
+                      <td>North Europe, West Europe</td>
+                    </tr>
+                    <tr>
+                      <td><span class="arch-rbadge" style="background:rgba(155,127,212,0.1);color:var(--purple)">APJ</span></td>
+                      <td>KR: ICN<br>SG: SIN<br>JP: HND/KIX<br>AU: SYD/MEL</td>
+                      <td>HND/KIX</td>
+                      <td>Japan East</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="arch-footnote">Burst compute is configurable &mdash; can be restricted to ServiceNow-only infrastructure via AI Control Tower</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Integrated Models -->
-      <div class="tier-col" style="border-top:3px solid var(--blue)">
+      <div class="tier-col" style="border-top:3px solid var(--blue)" onclick="openTierModal(this)">
         <div class="tier-col-head">
           <div class="tier-indicator" style="background:rgba(79,195,247,0.12);color:var(--blue);border:1px solid rgba(79,195,247,0.3)">IM</div>
           <div class="tier-col-head-text">
             <div class="tier-meta">SN-Managed or BYOK &mdash; Integrated Providers</div>
             <div class="tier-name">Integrated Models</div>
           </div>
+          <div class="tier-col-cta">Explore</div>
         </div>
         <div class="tier-col-body">
           <div class="tier-body">SN manages contracts and versioning by default, or bring your own keys. All OOTB skills and AI Agents supported. Data stays within ServiceNow&rsquo;s platform.</div>
@@ -1909,16 +2916,146 @@
           </div>
           <div class="tier-tag" style="background:rgba(79,195,247,0.08);color:var(--blue);border:1px solid rgba(79,195,247,0.18)">SN-managed or your keys &middot; Data stays within ServiceNow</div>
         </div>
+        <div class="tier-col-detail">
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">How It Works</div>
+            <div class="tier-detail-text">ServiceNow manages contracts, licensing, infrastructure, API keys, and model versioning. Data remains within ServiceNow&rsquo;s secure platform and is not used to train external models. Does not route through customer Azure/GCP/AWS tenants.</div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Provider Capabilities</div>
+            <ul class="tier-detail-list">
+              <li><strong style="color:var(--blue)">Azure OpenAI GPT-4.1</strong> &mdash; Advanced reasoning, complex instructions, multi-turn conversations, code generation. Deployment: Azure Global Standard.</li>
+              <li><strong style="color:var(--teal)">Google Gemini 2.5</strong> &mdash; Multimodal (text, images, code), deep context understanding, high-volume processing. Deployment: Vertex AI locations.</li>
+              <li><strong style="color:var(--orange)">AWS Claude 3.7 Sonnet</strong> &mdash; Balanced safety/tone control, large context windows for complex documents. Deployment: Bedrock regions.</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Pricing &amp; Governance</div>
+            <ul class="tier-detail-list">
+              <li>Uniform assist-based pricing &mdash; same rate regardless of which integrated model</li>
+              <li>Now Assist Dynamic Translation &mdash; auto-translates when model lacks native language support</li>
+              <li>Three-tier governance: AI Stewards &rarr; Admins &rarr; Developers</li>
+              <li>Activation: Govern &rarr; Deploy &rarr; Enjoy</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Prerequisites</div>
+            <ul class="tier-detail-list">
+              <li>Yokohama Patch 6 or Zurich Patch 1</li>
+              <li>OOTB skill switching from Yokohama Patch 9</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Support</div>
+            <ul class="tier-detail-list">
+              <li>All OOTB skills, AI Agents, and Agentic Workflows fully supported</li>
+              <li>All custom skills fully supported</li>
+              <li>BYOK option available &mdash; bring your own keys for the same integrated providers</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Regional Data Processing Architecture</div>
+            <div class="arch-diagram" style="--_accent:var(--blue)">
+              <div class="arch-diagram-header">
+                <div>
+                  <h5>Data processed in customer&rsquo;s region</h5>
+                  <p>Data processed within ServiceNow network boundary using Virtual Private Network (vNet) or Virtual Private Connection (VPC)</p>
+                </div>
+              </div>
+              <div class="arch-pipeline">
+                <div class="arch-sn-boundary" style="border-color:rgba(79,195,247,0.25)">
+                  <span class="arch-boundary-tag">ServiceNow Network Boundary</span>
+                  <div class="arch-node" style="border-color:rgba(79,195,247,0.2)">
+                    <div class="arch-node-label">Customer Glide Instance</div>
+                    <div class="arch-node-sub">AMS / EMEA / APJ</div>
+                  </div>
+                  <div class="arch-conn">
+                    <div class="arch-conn-label">TLS 1.2</div>
+                    <div class="arch-conn-line"></div>
+                  </div>
+                  <div class="arch-node" style="border-color:rgba(79,195,247,0.3);background:rgba(79,195,247,0.04)">
+                    <div class="arch-node-label" style="color:var(--blue)">Reverse Proxy</div>
+                    <div class="arch-node-sub">nginx<br>Azure / AWS / Google<br>subscription credentials</div>
+                  </div>
+                  <div class="arch-conn">
+                    <div class="arch-conn-label" style="color:var(--blue)">Regional</div>
+                    <div class="arch-conn-line"></div>
+                  </div>
+                  <div class="arch-node" style="border-color:rgba(79,195,247,0.35);background:rgba(79,195,247,0.04)">
+                    <div class="arch-node-label" style="color:var(--blue)">Provider Region DCs</div>
+                    <div class="arch-node-sub">Endpoint + API Keys + Models</div>
+                    <div class="arch-providers-row" style="justify-content:center;margin-top:6px">
+                      <span class="arch-provider-chip" style="color:var(--blue);border-color:rgba(79,195,247,0.15)">Azure vNet</span>
+                      <span class="arch-provider-chip" style="color:var(--orange);border-color:rgba(245,166,35,0.15)">AWS PrivateLink</span>
+                      <span class="arch-provider-chip" style="color:var(--teal);border-color:rgba(46,207,184,0.15)">Google PSC</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="arch-lock-badge" style="--_accent:var(--blue)">Private connections &middot; No public internet traversal &middot; TLS 1.2 encrypted</div>
+              <div style="padding:4px 16px 12px">
+                <table class="arch-region-table">
+                  <thead>
+                    <tr>
+                      <th>Region</th>
+                      <th>Azure OpenAI</th>
+                      <th>Claude on AWS</th>
+                      <th>Google Gemini</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="arch-rbadge" style="background:rgba(99,223,78,0.1);color:var(--green)">AMS</span></td>
+                      <td>AMS</td>
+                      <td>AMS</td>
+                      <td>AMS</td>
+                    </tr>
+                    <tr>
+                      <td><span class="arch-rbadge" style="background:rgba(79,195,247,0.1);color:var(--blue)">EMEA</span></td>
+                      <td>EMEA</td>
+                      <td>EMEA</td>
+                      <td>EMEA</td>
+                    </tr>
+                    <tr>
+                      <td><span class="arch-rbadge" style="background:rgba(155,127,212,0.1);color:var(--purple)">APJ</span></td>
+                      <td>APJ*</td>
+                      <td>APJ</td>
+                      <td>APJ</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="arch-footnote">*APJ Azure OpenAI: option to enable global routing for spillover for better performance due to capacity. AWS in APJ uses TLS + IP restrictions over public internet.</div>
+            </div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Private Endpoint Connections</div>
+            <ul class="tier-detail-list">
+              <li><strong style="color:var(--blue)">Microsoft Azure OpenAI</strong> &mdash; ServiceNow-managed direct private connection via Azure vNet</li>
+              <li><strong style="color:var(--orange)">Anthropic Claude on AWS</strong> &mdash; ServiceNow-managed direct private connection via AWS PrivateLink VPC</li>
+              <li><strong style="color:var(--teal)">Google Gemini</strong> &mdash; ServiceNow-managed direct private connection via Private Service Connect VPC</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Guardian Backends</div>
+            <ul class="tier-detail-list">
+              <li>Microsoft Azure Content Safety</li>
+              <li>Amazon Bedrock Guardrails</li>
+              <li>Google Model Armor</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <!-- BYOK LLM (Spokes) -->
-      <div class="tier-col" style="border-top:3px solid var(--orange)">
+      <div class="tier-col" style="border-top:3px solid var(--orange)" onclick="openTierModal(this)">
         <div class="tier-col-head">
           <div class="tier-indicator" style="background:rgba(245,166,35,0.12);color:var(--orange);border:1px solid rgba(245,166,35,0.3)">BK</div>
           <div class="tier-col-head-text">
             <div class="tier-meta">BYOK &mdash; Customer-Managed Keys</div>
             <div class="tier-name">BYOK LLM</div>
           </div>
+          <div class="tier-col-cta">Explore</div>
         </div>
         <div class="tier-col-body">
           <div class="tier-body">Customer manages their own API keys for non-integrated providers. Data flows to customer&rsquo;s provider under their enterprise terms.</div>
@@ -1931,16 +3068,46 @@
           </ul>
           <div class="tier-tag" style="background:rgba(245,166,35,0.08);color:var(--orange);border:1px solid rgba(245,166,35,0.18)">Your keys &middot; Your provider agreement</div>
         </div>
+        <div class="tier-col-detail">
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">How It Works</div>
+            <div class="tier-detail-text">Routes through ServiceNow Integration Hub spokes using customer-managed API keys and credentials. Data flows to the customer&rsquo;s chosen provider under their existing enterprise agreements.</div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Available Providers</div>
+            <ul class="tier-detail-list">
+              <li>Azure OpenAI (customer tenant)</li>
+              <li>OpenAI (direct API)</li>
+              <li>IBM WatsonX</li>
+              <li>Google Vertex AI</li>
+              <li>Google Gemini AI Studio</li>
+              <li>AWS Bedrock</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Best For</div>
+            <div class="tier-detail-text">Organizations with existing provider contracts and specific compliance requirements that mandate data flow through their own cloud tenants.</div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Support Limitations</div>
+            <ul class="tier-detail-list">
+              <li>OOTB skills &mdash; limited support</li>
+              <li>AI Agents &amp; Agentic Workflows &mdash; limited support</li>
+              <li>Custom skills &mdash; fully supported</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <!-- BYO LLM -->
-      <div class="tier-col" style="border-top:3px solid var(--muted)">
+      <div class="tier-col" style="border-top:3px solid var(--muted)" onclick="openTierModal(this)">
         <div class="tier-col-head">
           <div class="tier-indicator" style="background:rgba(122,155,173,0.1);color:var(--muted);border:1px solid rgba(122,155,173,0.25)">YO</div>
           <div class="tier-col-head-text">
             <div class="tier-meta">BYO LLM &mdash; Generic Connector</div>
             <div class="tier-name">BYO LLM</div>
           </div>
+          <div class="tier-col-cta">Explore</div>
         </div>
         <div class="tier-col-body">
           <div class="tier-body">Connect any external or self-hosted model via Generic LLM Connector. On-premise, regional, or proprietary fine-tuned models.</div>
@@ -1950,6 +3117,36 @@
           </ul>
           <div class="tier-warning" style="color:var(--orange);background:rgba(245,166,35,0.06);border-color:rgba(245,166,35,0.15)">&#9888;&#65039; OOTB Agents and Agentic Workflows are not supported. Only basic custom skills are supported &mdash; OOTB skills require cloning.</div>
           <div class="tier-tag" style="background:rgba(122,155,173,0.06);color:var(--muted);border:1px solid rgba(122,155,173,0.15)">Your model &middot; Your infrastructure</div>
+        </div>
+        <div class="tier-col-detail">
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">How It Works</div>
+            <div class="tier-detail-text">Connect any external or self-hosted model using the Generic LLM Connector. Requires an API key, endpoint URL, and a transformer script that translates the provider&rsquo;s output format into ServiceNow&rsquo;s expected format.</div>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Use Cases</div>
+            <ul class="tier-detail-list">
+              <li>On-premise models for air-gapped environments</li>
+              <li>Regional providers for data sovereignty</li>
+              <li>Proprietary fine-tuned models</li>
+              <li>Fallback/failover chains across multiple models</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Setup</div>
+            <ul class="tier-detail-list">
+              <li>Zurich Patch 4+ &mdash; guided setup via Providers and Models interface</li>
+              <li>Full credential management within ServiceNow</li>
+            </ul>
+          </div>
+          <div class="tier-detail-group">
+            <div class="tier-detail-label">Support Limitations</div>
+            <ul class="tier-detail-list">
+              <li>OOTB Agents and Agentic Workflows &mdash; not supported</li>
+              <li>OOTB skills &mdash; require cloning to use</li>
+              <li>Custom skills only &mdash; fully supported</li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -2165,6 +3362,32 @@
     </p>
   </div>
 
+  <!-- ARCHITECTURE MODAL -->
+  <div class="arch-modal-overlay" id="archModalOverlay" onclick="if(event.target===this)closeArchModal()">
+    <div class="arch-modal">
+      <div class="arch-modal-head">
+        <div class="arch-modal-head-icon">&#9881;</div>
+        <div class="arch-modal-head-text">
+          <div class="arch-modal-meta">Commercial Cloud &mdash; AI Agents Architecture</div>
+          <div class="arch-modal-title">End-to-End Data Flow Architecture</div>
+        </div>
+        <button class="arch-modal-close" onclick="closeArchModal()">&times;</button>
+      </div>
+      <div class="arch-modal-body" style="padding:0">
+        <img src="slide14-architecture.png" alt="AI Agents Architecture — ServiceNow Commercial Cloud" style="width:100%;height:auto;display:block;border-radius:0 0 18px 18px">
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER MODAL OVERLAY -->
+  <div class="tier-modal-overlay" id="tierModalOverlay" onclick="if(event.target===this)closeTierModal()">
+    <div class="tier-modal">
+      <div class="tier-modal-header" id="tierModalHeader"></div>
+      <button class="tier-modal-close" onclick="closeTierModal()">&times;</button>
+      <div class="tier-modal-body" id="tierModalBody"></div>
+    </div>
+  </div>
+
   <script>
     function toggle(card) {
       card.classList.toggle('open');
@@ -2176,6 +3399,53 @@
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    function openTierModal(tierEl) {
+      const overlay = document.getElementById('tierModalOverlay');
+      const header = document.getElementById('tierModalHeader');
+      const body = document.getElementById('tierModalBody');
+      // Clone the header from the card
+      const cardHead = tierEl.querySelector('.tier-col-head');
+      header.innerHTML = cardHead.innerHTML;
+      // Remove chevron from modal header
+      const chev = header.querySelector('.tier-col-chevron');
+      if (chev) chev.remove();
+      // Copy the detail content
+      const detail = tierEl.querySelector('.tier-col-detail');
+      if (detail) {
+        body.innerHTML = detail.innerHTML;
+      }
+      // Copy the border-top color
+      const borderColor = tierEl.style.borderTopColor || tierEl.style.borderTop;
+      header.style.borderBottom = '2px solid ' + (getComputedStyle(tierEl).borderTopColor);
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTierModal() {
+      const overlay = document.getElementById('tierModalOverlay');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function togglePillar(el) {
+      el.classList.toggle('open');
+    }
+
+    function openArchModal() {
+      const overlay = document.getElementById('archModalOverlay');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeArchModal() {
+      const overlay = document.getElementById('archModalOverlay');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeTierModal(); closeArchModal(); }
+    });
   </script>
 
 </body>
