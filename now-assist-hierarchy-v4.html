@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Now Assist — Enterprise AI Framework | American Express</title>
+  <style>
+    :root {
+      --green:    #63DF4E;  /* Wasabi Green */
+      --green-d:  #4EC03B;
+      --green-l:  #85E873;
+      --bg:       #032D42;  /* Infinite Blue */
+      --surface:  #043A52;
+      --card:     #054B68;
+      --card2:    #065A7D;
+      --border:   #0A6285;
+      --border2:  #0D7299;
+      --text:     #E8EEF4;
+      --muted:    #7A9BAD;
+      --blue:    #4FC3F7;
+      --purple:  #9B7FD4;
+      --orange:  #F5A623;
+      --teal:    #2ECFB8;
+      --red:     #F06292;
+      --yellow:  #FFD54F;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'ServiceNow Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 36px 28px 72px;
+    }
+
+    /* ─── HEADER ──────────────────────────────────────── */
+    .header {
+      text-align: center;
+      margin-bottom: 44px;
+    }
+    .header-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 6px 18px 6px 10px;
+      margin-bottom: 18px;
+    }
+    .sn-logo {
+      width: 26px; height: 26px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900; color: #000;
+    }
+    .header-eyebrow span { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .header h1 {
+      font-size: clamp(30px, 3vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .header h1 .accent {
+      background: linear-gradient(130deg, var(--green-l), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header p { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+    /* ─── WRAPPER ─────────────────────────────────────── */
+    .hierarchy { max-width: 1120px; margin: 0 auto; }
+
+    /* ─── ROOT NODE ───────────────────────────────────── */
+    .root {
+      background: linear-gradient(135deg, #021f2f 0%, #032D42 60%, #022239 100%);
+      border: 2px solid var(--green);
+      border-radius: 18px;
+      padding: 26px 36px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(99,223,78,0.12), 0 8px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .root-tag {
+      display: inline-block;
+      background: var(--green);
+      color: #000;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 11px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .root h2 { font-size: 30px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+    .root h2 em { color: var(--green); font-style: normal; }
+    .root p { font-size: 13px; color: var(--muted); }
+
+    /* ─── LAYER CONNECTORS ────────────────────────────── */
+    .v-line {
+      width: 2px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, var(--green) 0%, var(--border2) 100%);
+    }
+    .v-line.short  { height: 28px; }
+    .v-line.medium { height: 36px; }
+    .v-line.faded  { background: linear-gradient(180deg, var(--border2) 0%, var(--border) 100%); }
+
+    /* ─── LAYER WRAPPER ───────────────────────────────── */
+    .layer {
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 22px 22px 24px;
+      margin-bottom: 0;
+    }
+    .layer-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .layer-label-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .layer-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .layer-num {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* ─── LAYER 1 : FOUNDATION ────────────────────────── */
+    .layer-1 { border-color: var(--border2); }
+    .layer-1 .layer-label-text { color: var(--green); }
+    .layer-1 .layer-num { background: rgba(99,223,78,0.15); color: var(--green); border: 1px solid rgba(99,223,78,0.4); }
+
+    .foundation-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .f-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .f-card:hover { border-color: rgba(99,223,78,0.5); transform: translateY(-1px); }
+    .f-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), transparent);
+    }
+    .f-card .f-icon { font-size: 18px; margin-bottom: 8px; }
+    .f-card h4 { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .f-card p  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── LAYER 2 : BUILD & CONFIGURE ────────────────── */
+    .layer-2 {
+      border-color: var(--blue);
+      border-style: dashed;
+      background: rgba(79,195,247,0.02);
+    }
+    .layer-2 .layer-label-text { color: var(--blue); }
+    .layer-2 .layer-num { background: rgba(79,195,247,0.1); color: var(--blue); border: 1px solid rgba(79,195,247,0.3); }
+
+    .layer-2-note {
+      font-size: 11px;
+      color: var(--blue);
+      background: rgba(79,195,247,0.07);
+      border: 1px solid rgba(79,195,247,0.2);
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .build-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .b-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .b-card-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .b-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .b-card-header h4 { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.3; }
+    .b-card-header p  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .b-card-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; }
+    .b-card-body > a:last-child { margin-top: auto !important; padding-top: 12px; }
+
+    .b-group { margin-bottom: 12px; }
+    .b-group:last-child, .b-group:last-of-type { margin-bottom: 0; }
+    .b-group-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+    .b-list { list-style: none; }
+    .b-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .b-list li:last-child { border-bottom: none; }
+    .b-list li .bdot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .b-list li .sub { font-size: 10px; color: var(--muted); display: block; }
+
+    /* ─── LAYER 3 : PRODUCTS ──────────────────────────── */
+    .layer-3 { border-color: var(--border2); }
+    .layer-3 .layer-label-text { color: var(--purple); }
+    .layer-3 .layer-num { background: rgba(155,127,212,0.1); color: var(--purple); border: 1px solid rgba(155,127,212,0.3); }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .p-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .p-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .p-card.open  { border-color: var(--border2); }
+    .p-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .p-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .p-header-text { flex: 1; min-width: 0; }
+    .p-header-text h3 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px; line-height: 1.3; }
+    .p-header-text p  { font-size: 10px; color: var(--muted); }
+    .p-chevron { color: var(--muted); font-size: 12px; transition: transform 0.25s; flex-shrink: 0; }
+    .p-card.open .p-chevron { transform: rotate(180deg); }
+
+    /* ─── HEADER INTERACTION FIX ──────────────────── */
+    .p-header { cursor: pointer; }
+    .p-header:hover { background: rgba(255,255,255,0.03); border-radius: 12px 12px 0 0; transition: background 0.15s; }
+    .p-card.open .p-header:hover { border-radius: 0; }
+
+    /* ─── COLLAPSED PILL STATE ─────────────────────── */
+    .p-card:not(.open) { background: transparent; border-color: transparent; box-shadow: none; border-radius: 8px; }
+    .p-card:not(.open):hover { background: rgba(255,255,255,0.03); border-color: var(--border); }
+    .p-card:not(.open) .p-header { padding: 6px 10px; }
+    .p-card:not(.open) .p-icon { width: 24px; height: 24px; font-size: 13px; border-radius: 5px; }
+    .p-card:not(.open) .p-header-text p { display: none; }
+    .p-card:not(.open) .p-header-text h3 { font-size: 12px; }
+    .p-card:not(.open) .badge { font-size: 8px; padding: 2px 6px; }
+
+    .p-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+    .p-card.open .p-body { display: block; }
+
+    /* ─── 3-COLUMN SCROLLABLE LAYOUT ────────────────── */
+    .p-body-cols {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .p-col {
+      max-height: 160px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .p-col::-webkit-scrollbar { width: 4px; }
+    .p-col::-webkit-scrollbar-track { background: transparent; }
+    .p-col::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    .p-col-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      z-index: 1;
+    }
+    .p-col {
+      border-radius: 0 0 8px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .p-col-label .dot-label {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .p-col .p-items { list-style: none; }
+    .p-col .p-items li {
+      font-size: 11px;
+      color: var(--text);
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.35;
+    }
+    .p-col .p-items li:last-child { border-bottom: none; }
+    .p-col .p-items li::before { content: '◆'; font-size: 5px; flex-shrink: 0; }
+
+    .p-section { margin-bottom: 12px; }
+    .p-section:last-child { margin-bottom: 0; }
+    .p-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .p-section-label .dot-label {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .p-items { list-style: none; }
+    .p-items li {
+      font-size: 11.5px;
+      color: var(--muted);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .p-items li:last-child { border-bottom: none; }
+    .p-items li::before { content: '◆'; font-size: 6px; flex-shrink: 0; }
+
+    /* badges */
+    .badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge-green  { background: rgba(99,223,78,0.15);  color: var(--green-l);  border: 1px solid rgba(99,223,78,0.3); }
+    .badge-blue   { background: rgba(79,195,247,0.12);  color: var(--blue);     border: 1px solid rgba(79,195,247,0.25); }
+    .badge-purple { background: rgba(155,127,212,0.12); color: var(--purple);   border: 1px solid rgba(155,127,212,0.25); }
+    .badge-orange { background: rgba(245,166,35,0.12);  color: var(--orange);   border: 1px solid rgba(245,166,35,0.25); }
+    .badge-teal   { background: rgba(46,207,184,0.12);  color: var(--teal);     border: 1px solid rgba(46,207,184,0.25); }
+    .badge-red    { background: rgba(240,98,146,0.12);  color: var(--red);      border: 1px solid rgba(240,98,146,0.25); }
+    .badge-yellow { background: rgba(255,213,79,0.12);  color: var(--yellow);   border: 1px solid rgba(255,213,79,0.25); }
+
+    /* color helpers */
+    .c-green  { color: var(--green);  }
+    .c-blue   { color: var(--blue);   }
+    .c-purple { color: var(--purple); }
+    .c-orange { color: var(--orange); }
+    .c-teal   { color: var(--teal);   }
+    .c-red    { color: var(--red);    }
+    .c-yellow { color: var(--yellow); }
+    .bg-green  { background: rgba(99,223,78,0.12);  border: 1px solid rgba(99,223,78,0.25); }
+    .bg-blue   { background: rgba(79,195,247,0.10);  border: 1px solid rgba(79,195,247,0.22); }
+    .bg-purple { background: rgba(155,127,212,0.10); border: 1px solid rgba(155,127,212,0.22); }
+    .bg-orange { background: rgba(245,166,35,0.10);  border: 1px solid rgba(245,166,35,0.22); }
+    .bg-teal   { background: rgba(46,207,184,0.10);  border: 1px solid rgba(46,207,184,0.22); }
+    .bg-red    { background: rgba(240,98,146,0.10);  border: 1px solid rgba(240,98,146,0.22); }
+    .bg-yellow { background: rgba(255,213,79,0.10);  border: 1px solid rgba(255,213,79,0.22); }
+
+    /* ─── FOUNDATION LINK CARDS ───────────────────────── */
+    .f-card { cursor: pointer; }
+    .f-card-top { display: flex; align-items: flex-start; gap: 10px; }
+    .f-card-top-content { flex: 1; }
+    .f-link-arrow { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 2px; transition: transform 0.2s; }
+    .f-card:hover .f-link-arrow { transform: translateX(4px); }
+    .f-link-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--green); font-weight: 700; margin-top: auto; padding-top: 10px; opacity: 0.7; }
+
+    /* ─── DETAIL SECTIONS ─────────────────────────────── */
+    .detail-divider { max-width: 1120px; margin: 52px auto 0; border: none; border-top: 2px solid var(--border2); }
+    .detail-section { max-width: 1120px; margin: 0 auto; padding: 48px 0 52px; scroll-margin-top: 24px; }
+    .detail-section + .detail-section { padding-top: 48px; border-top: 1px solid var(--border); }
+    .detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; gap: 20px; }
+    .detail-header-left { display: flex; align-items: flex-start; gap: 16px; }
+    .detail-icon { font-size: 30px; flex-shrink: 0; margin-top: 2px; }
+    .detail-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .detail-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 560px; }
+    .detail-back { font-size: 11px; color: var(--green); cursor: pointer; background: rgba(99,223,78,0.08); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 6px 14px; white-space: nowrap; flex-shrink: 0; margin-top: 4px; }
+    .detail-back:hover { background: rgba(99,223,78,0.16); }
+
+    /* ─── MODEL PROVIDER OPTIONS ──────────────────────── */
+    .tier-bridge { display: inline-block; font-size: 11px; color: var(--green-l); background: rgba(99,223,78,0.07); border: 1px solid rgba(99,223,78,0.2); border-radius: 6px; padding: 7px 14px; margin-bottom: 16px; }
+    .tier-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .tier-col {
+      background: linear-gradient(165deg, rgba(4,58,82,0.9) 0%, rgba(3,45,66,0.95) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .tier-col:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .tier-col-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px 14px;
+    }
+    .tier-indicator {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+      flex-shrink: 0;
+      letter-spacing: -0.5px;
+    }
+    .tier-col-head-text { flex: 1; }
+    .tier-meta { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; }
+    .tier-name { font-size: 15px; font-weight: 800; line-height: 1.3; color: #fff; }
+    .tier-col-body {
+      padding: 0 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .tier-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .tier-tag {
+      font-size: 9px; font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-align: center;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: auto;
+    }
+    .tier-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+    .tier-list li {
+      font-size: 11.5px; color: var(--text); opacity: 0.8;
+      padding: 5px 0 5px 16px;
+      position: relative; line-height: 1.45;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .tier-list li:last-child { border-bottom: none; }
+    .tier-list li::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 2px; background: var(--dot, var(--border2)); }
+    .tier-warning {
+      font-size: 11px; color: var(--orange);
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.15);
+      border-radius: 8px;
+      padding: 10px 13px;
+      line-height: 1.5;
+    }
+    .tier-lts {
+      font-size: 11px; color: var(--muted);
+      background: rgba(99,223,78,0.05);
+      border: 1px solid rgba(99,223,78,0.12);
+      border-radius: 8px;
+      padding: 10px 13px;
+      line-height: 1.5;
+    }
+    .tier-providers { display: flex; flex-direction: column; gap: 10px; }
+    .tier-provider-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .tier-picon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .tier-pname { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .tier-pdetail { font-size: 11px; color: var(--muted); line-height: 1.45; }
+    @media (max-width: 900px) { .tier-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .tier-grid { grid-template-columns: 1fr; } }
+
+    /* ─── PROVIDER GOVERNANCE 3-GRID ──────────────────── */
+    .gov3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+    .gov3-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 14px; }
+    .gov3-icon { font-size: 18px; margin-bottom: 7px; display: block; }
+    .gov3-role { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+    .gov3-scope { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
+    .gov3-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── INTEL CAPS (GenAI Controller) ───────────────── */
+    .intel-caps { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
+    .intel-cap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; }
+    .intel-cap-name { font-size: 11px; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+    .intel-cap-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── GOV GROUPS (Control Tower + Orchestrator) ────── */
+    .gov-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .gov-group { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+    .gov-group-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .gov-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .gov-list li { font-size: 11px; color: var(--muted); padding-left: 12px; position: relative; line-height: 1.4; }
+    .gov-list li::before { content: '·'; position: absolute; left: 0; font-size: 14px; line-height: 1; }
+
+    /* ─── CONTROL TOWER PILLARS ──────────────────────── */
+    .ct-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .ct-pillar {
+      background: var(--surface);
+      padding: 20px 18px 18px;
+      position: relative;
+      transition: background 0.25s;
+    }
+    .ct-pillar:hover { background: var(--card); }
+    .ct-pillar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 18px; right: 18px;
+      height: 2px;
+      background: var(--_accent);
+      border-radius: 0 0 2px 2px;
+    }
+    .ct-pillar-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .ct-pillar-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      background: color-mix(in srgb, var(--_accent) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--_accent) 25%, transparent);
+    }
+    .ct-pillar-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--_accent);
+      line-height: 1.3;
+    }
+    .ct-pillar-desc {
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+    .ct-pillar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .ct-pillar-tag {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    @media (max-width: 900px) { .ct-pillars { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .ct-pillars { grid-template-columns: 1fr; } }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      max-width: 1120px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footer a { color: var(--green); text-decoration: none; }
+
+    /* ─── ENTRANCE ANIMATION ──────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .header    { animation: fadeUp 0.5s ease both; }
+    .hierarchy { animation: fadeUp 0.5s ease 0.1s both; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .foundation-grid { grid-template-columns: repeat(2, 1fr); }
+      .build-grid      { grid-template-columns: 1fr; }
+      .product-grid    { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .foundation-grid { grid-template-columns: 1fr; }
+      .product-grid    { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">
+      <div class="sn-logo">SN</div>
+      <a href="https://www.servicenow.com/ai.html" target="_blank" rel="noopener" style="color:var(--green);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(99,223,78,0.4);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='rgba(99,223,78,0.9)'" onmouseout="this.style.textDecorationColor='rgba(99,223,78,0.4)'">ServiceNow AI Platform ↗</a>
+    </div>
+    <h1>Now Assist is an <span class="accent">Enterprise AI Framework</span></h1>
+    <p>Not a feature set. A complete, governed platform for deploying autonomous AI across every workflow &mdash; built once, applied everywhere.</p>
+  </div>
+
+  <div class="hierarchy">
+
+    <!-- ════ ROOT ════ -->
+    <div class="root">
+      <div class="root-tag">GenAI Platform</div>
+      <h2><em>Now Assist</em> by ServiceNow</h2>
+      <p>Conversational, generative, and agentic AI embedded natively across every ServiceNow workflow</p>
+    </div>
+
+    <div class="v-line short"></div>
+
+    <!-- ════ LAYER 1: FOUNDATION ════ -->
+    <div class="layer layer-1">
+      <div class="layer-label">
+        <div class="layer-num">1</div>
+        <div class="layer-label-text">Platform Foundation &nbsp;—&nbsp; Shared Infrastructure</div>
+      </div>
+      <div class="foundation-grid">
+
+        <!-- Model Provider Flexibility -->
+        <div class="f-card" onclick="scrollToDetail('detail-model-providers')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🔄</div>
+              <h4>Model Provider Flexibility</h4>
+              <p>Four provider deployment modes — Now LLM Service, Integrated Models (SN-managed or BYOK), BYOK LLM, or BYO LLM. Each skill routes to its own model independently with no platform-wide lock-in.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+        <!-- Generative AI Controller -->
+        <div class="f-card" onclick="scrollToDetail('detail-genai-controller')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🔌</div>
+              <h4>Generative AI Controller</h4>
+              <p>The connection layer to all LLMs. Prompt governance, PII masking via Data Privacy for Now Assist, content moderation via Now Assist Guardian, and provider abstraction.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+        <!-- AI Control Tower -->
+        <div class="f-card" onclick="scrollToDetail('detail-control-tower')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🛡️</div>
+              <h4>AI Control Tower</h4>
+              <p>Platform-wide governance. Monitor usage, manage AI asset inventory, enforce compliance policies, and audit every AI interaction across all products.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+        <!-- AI Agent Orchestrator -->
+        <div class="f-card" onclick="scrollToDetail('detail-orchestrator')">
+          <div class="f-card-top">
+            <div class="f-card-top-content">
+              <div class="f-icon">🤝</div>
+              <h4>AI Agent Orchestrator</h4>
+              <p>Coordinates multi-agent workflows. Manages handoffs between agents, resolves conflicts, and tracks state across long-running agentic tasks.</p>
+            </div>
+            <span class="f-link-arrow">→</span>
+          </div>
+          <div class="f-link-label">View details ↓</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="v-line short faded"></div>
+
+    <!-- ════ LAYER 2: BUILD & CONFIGURE ════ -->
+    <div class="layer layer-2">
+      <div class="layer-label">
+        <div class="layer-num c-blue">2</div>
+        <div class="layer-label-text">Build &amp; Configure &nbsp;—&nbsp; Cross-Product Tools</div>
+      </div>
+      <div class="layer-2-note">↔ These tools extend <strong>any</strong> Now Assist for [X] product below — they are not exclusive to any single workflow</div>
+
+      <div class="build-grid">
+
+        <!-- AI Agent Studio -->
+        <div class="b-card">
+          <div class="b-card-header">
+            <div class="b-icon bg-blue">🤖</div>
+            <div>
+              <h4>AI Agent Studio</h4>
+              <p>Build autonomous AI agents that take action</p>
+            </div>
+          </div>
+          <div class="b-card-body">
+
+            <div class="b-group">
+              <div class="b-group-label c-blue">Agentic Flows</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Multi-step orchestration with AI decision points<span class="sub">Agents reason through steps rather than following fixed scripts</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Flow Designer integration<span class="sub">Agents invoke subflows and flow actions as tools within existing automation</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Human-in-the-loop checkpoints<span class="sub">Pause for human approval before high-impact actions</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-blue">Agents</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Agent Definition &amp; Instructions<span class="sub">Name, goal, persona, behavioral guardrails, and scope</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Memory &amp; Context Window<span class="sub">Maintains conversation state across multi-turn interactions</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--blue)"></div>
+                  <div>Connected Knowledge Sources<span class="sub">KB articles, CMDB, past records, external APIs</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-blue">Tools (Agent Capabilities)</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Record Lookup &amp; Search</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Record Create / Update</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Subflow &amp; Workflow Executor</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Knowledge Search (semantic)</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>REST API &amp; External System Calls</div></li>
+                <li><div class="bdot" style="background:var(--blue)"></div><div>Custom Script Tool</div></li>
+              </ul>
+            </div>
+
+            <a href="https://www.servicenow.com/docs/r/intelligent-experiences/na-ai-agents.html" target="_blank" rel="noopener" style="color:var(--blue);font-size:10px;display:inline-block;margin-top:8px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product documentation →</a>
+
+          </div>
+        </div>
+
+        <!-- Now Assist Skill Kit -->
+        <div class="b-card">
+          <div class="b-card-header">
+            <div class="b-icon bg-green">🎯</div>
+            <div>
+              <h4>Now Assist Skill Kit</h4>
+              <p>Build &amp; customize GenAI skills for any product</p>
+            </div>
+          </div>
+          <div class="b-card-body">
+
+            <div class="b-group">
+              <div class="b-group-label c-green">Skills</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Skill Definition<span class="sub">Name, target table, input fields, and output destination</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Input Configuration<span class="sub">Control exactly what context is passed to the LLM</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Output Handling<span class="sub">Write AI response to a field, panel, or notification</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Custom Skill Builder<span class="sub">Author entirely new skills using the Skill Kit SDK</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-green">Prompt Templates</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>System prompt authoring<span class="sub">Set the LLM's role, tone, and knowledge scope</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Dynamic variable injection<span class="sub">Insert live record fields into prompts at runtime</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--green)"></div>
+                  <div>Prompt locking &amp; cloning<span class="sub">Lock production prompts and create versioned copies without altering live skills</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-green">Skill Configuration</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--green)"></div><div>Enable / disable per skill</div></li>
+                <li><div class="bdot" style="background:var(--green)"></div><div>Audience scoping by role or group</div></li>
+                <li><div class="bdot" style="background:var(--green)"></div><div>User feedback collection (thumbs up/down)</div></li>
+                <li><div class="bdot" style="background:var(--green)"></div><div>Evaluations<span class="sub">Test skills against datasets using Faithfulness and Correctness metrics</span></div></li>
+              </ul>
+              <a href="https://www.servicenow.com/docs/r/intelligent-experiences/now-assist-skill-kit/now-assist-skill-kit-landing.html" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;margin-top:8px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product documentation →</a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Now Assist Admin -->
+        <div class="b-card">
+          <div class="b-card-header">
+            <div class="b-icon bg-orange">⚡</div>
+            <div>
+              <h4>Now Assist Admin</h4>
+              <p>Govern, monitor &amp; configure across all products</p>
+            </div>
+          </div>
+          <div class="b-card-body">
+
+            <div class="b-group">
+              <div class="b-group-label c-orange">Skill Management</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Skill List — master on/off controls<span class="sub">One place to activate or deactivate any skill</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Guided Setup Wizard<span class="sub">Step-by-step activation flow for each skill</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-orange">Data Privacy</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Sensitive Data Masking<span class="sub">PII redaction before prompts reach any LLM via Data Privacy for Now Assist</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Data sharing opt-out<span class="sub">Users opt out of AI data sharing; role-based access controls panel visibility</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="b-group">
+              <div class="b-group-label c-orange">Analytics &amp; Models</div>
+              <ul class="b-list">
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>LLM configuration per skill<span class="sub">Select model provider, version, and endpoint</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Usage analytics dashboard<span class="sub">Assist consumption, invocation counts, entitlement tracking</span></div>
+                </li>
+                <li><div class="bdot" style="background:var(--orange)"></div>
+                  <div>Quality monitoring<span class="sub">Aggregate feedback scores and response quality trends</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <a href="https://www.servicenow.com/docs/r/washingtondc/intelligent-experiences/configuring-now-assist.html" target="_blank" rel="noopener" style="color:var(--orange);font-size:10px;display:inline-block;margin-top:8px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product documentation →</a>
+
+          </div>
+        </div>
+
+      </div><!-- /build-grid -->
+    </div><!-- /layer-2 -->
+
+    <div class="v-line short faded"></div>
+
+    <!-- ════ LAYER 3: NOW ASSIST FOR [X] ════ -->
+    <div class="layer layer-3">
+      <div class="layer-label">
+        <div class="layer-num c-purple">3</div>
+        <div class="layer-label-text">Now Assist for [X] &nbsp;—&nbsp; Workflow-Specific Products &nbsp;(click to expand OOTB skills &amp; agents)</div>
+      </div>
+      <a href="https://applibrary.service-now.com/ai_gallery?id=ai_gallery_view_all&type=use_case&view=department&tab=agents&spa=1" target="_blank" rel="noopener" style="color:var(--purple);font-size:10px;display:inline-block;margin-bottom:12px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">AI Gallery →</a>
+
+      <div class="product-grid">
+
+        <!-- ITSM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-green" style="font-size:18px">⚙️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for ITSM</h3>
+              <p>IT Service Management — most mature Now Assist offering</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Zero Touch Service Desk</li>
+                  <li>Investigate &amp; Resolve Incidents</li>
+                  <li>Triage &amp; Categorize Incidents</li>
+                  <li>Create Standard Change Request</li>
+                  <li>Generate Change Request Plans</li>
+                  <li>Create Standard Change Template Proposal</li>
+                  <li>Suggest CIs for Change Request</li>
+                  <li>Assess Change Conflicts</li>
+                  <li>Assess Change Quality</li>
+                  <li>Schedule a Change</li>
+                  <li>Analyze Potential Impact</li>
+                  <li>Create Outages for Change Request</li>
+                  <li>Wrap-up &amp; Resolve Incident</li>
+                  <li>Explain SLA History</li>
+                  <li>Investigate IT Problems</li>
+                  <li>Analyze Incident Trends</li>
+                  <li>Generate Post-Incident Reviews</li>
+                  <li>Identify Ways to Improve Services</li>
+                  <li>Generate Resolution Plans</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Zero Touch Service Desk Agent</li>
+                  <li>Incident Resolution AI Agent</li>
+                  <li>Incident Knowledge Article Agent</li>
+                  <li>Incident Known Error Article Agent</li>
+                  <li>Incident Triager</li>
+                  <li>Post-Incident Review Agent</li>
+                  <li>Standard Change Template Recommender</li>
+                  <li>Change Conflict Assessor</li>
+                  <li>Change Quality Assessor</li>
+                  <li>Schedule Change Request Agent</li>
+                  <li>Change Justification Proposal</li>
+                  <li>Change Risk &amp; Impact Analysis</li>
+                  <li>Change Implementation Plan</li>
+                  <li>Change Test Plan</li>
+                  <li>Change Backout Plan</li>
+                  <li>Analyze Potential Impact Agent</li>
+                  <li>Task Trends Analyzer</li>
+                  <li>Problem Investigator</li>
+                  <li>Web Research &amp; Recommendation Agent</li>
+                  <li>Find Catalog Item</li>
+                  <li>Record Field Value Prediction Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Change request risk explanation</li>
+                  <li>Change request summarization</li>
+                  <li>Chat reply recommendation</li>
+                  <li>Chat summarization</li>
+                  <li>Email recommendation</li>
+                  <li>Incident assist</li>
+                  <li>Incident sentiment analysis</li>
+                  <li>Incident summarization</li>
+                  <li>KB generation</li>
+                  <li>Release notes generation</li>
+                  <li>Resolution notes generation</li>
+                  <li>Sidebar discussion summarization</li>
+                  <li>Suggested steps generation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HRSD -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-purple">👥</div>
+            <div class="p-header-text">
+              <h3>Now Assist for HRSD</h3>
+              <p>HR Service Delivery — employee experience AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Create job requisition</li>
+                  <li>Generate onboarding ramp-up plan</li>
+                  <li>Schedule Interviews</li>
+                  <li>Help plan growth conversations</li>
+                  <li>Resolve HR cases</li>
+                  <li>Resolve policy for tuition reimbursement</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Salary Setup Agent</li>
+                  <li>Now Assist Voice Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Case summarization</li>
+                  <li>Chat reply recommendation</li>
+                  <li>Chat summarization</li>
+                  <li>Email recommendation</li>
+                  <li>KB generation</li>
+                  <li>Persona assistant</li>
+                  <li>Resolution notes generation</li>
+                  <li>Sentiment analysis for HR case</li>
+                  <li>Sentiment analysis for HR task</li>
+                  <li>Sidebar discussion summarization</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-teal">💬</div>
+            <div class="p-header-text">
+              <h3>Now Assist for CRM</h3>
+              <p>Customer Relationship Management — service, success &amp; sales AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Provide Customer 360 insights</li>
+                  <li>Triage Cases</li>
+                  <li>Monitor engagement health</li>
+                  <li>Analyze risks and recommend solutions</li>
+                  <li>Support renewals and expansion</li>
+                  <li>Trigger risk mitigation touchpoint</li>
+                  <li>Service bridge onboarding</li>
+                  <li>Help Nurture New Leads</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Customer interaction context gatherer AI agent</li>
+                  <li>Customer insight AI Agent</li>
+                  <li>Case action AI Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Activity response generation</li>
+                  <li>Case summarization</li>
+                  <li>Chat recommendation</li>
+                  <li>Chat summarization</li>
+                  <li>Email recommendation</li>
+                  <li>KB generation</li>
+                  <li>Resolution notes generation</li>
+                  <li>Sentiment analysis case</li>
+                  <li>Sentiment analysis dashboard</li>
+                  <li>Sidebar summarization</li>
+                  <li>Suggested steps generation</li>
+                  <li>Trending topics dashboard</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Creator / App Engine -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-blue">⚡</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Creator</h3>
+              <p>App Engine — AI-assisted low-code development</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Build Agent</li>
+                  <li>Catalog Item Generation</li>
+                  <li>Playbook Generation</li>
+                  <li>Flow Generation</li>
+                  <li>Code Generation</li>
+                  <li>ATF Troubleshooting Agent</li>
+                  <li>UI Builder Agent</li>
+                  <li>Prioritize Work AI Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>App generation</li>
+                  <li>Build Agent</li>
+                  <li>Catalog item generation</li>
+                  <li>App summary generation</li>
+                  <li>Client script summarization</li>
+                  <li>Code Assist autocomplete</li>
+                  <li>Code Assist edit</li>
+                  <li>Code assist summarization</li>
+                  <li>Code Assist generation</li>
+                  <li>Event handler generation</li>
+                  <li>Experience generation</li>
+                  <li>Flow generation</li>
+                  <li>Flow generation with images</li>
+                  <li>Flow recommendations</li>
+                  <li>Flow summarization</li>
+                  <li>Mobile card generation</li>
+                  <li>Playbook generation</li>
+                  <li>Playbook generation with images</li>
+                  <li>Playbook recommendations</li>
+                  <li>Process inefficiency highlights</li>
+                  <li>Robotic Process Automation (RPA) bot generation</li>
+                  <li>Spoke generation</li>
+                  <li>Test generation</li>
+                  <li>Work notes analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SecOps -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-red">🛡️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Security Incident Response</h3>
+              <p>Security Incident Response — threat detection &amp; response AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-red"><div class="dot-label" style="background:var(--red)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Close security incident</li>
+                  <li>Generate SIR Shift Handover Report</li>
+                  <li>Analyze security operations metrics</li>
+                  <li>Resolve Security Incident</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-red"><div class="dot-label" style="background:var(--red)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Security Incident Shift Handover AI Agent</li>
+                  <li>Security Incident Wrap-Up Generator</li>
+                  <li>Email Generation Agent</li>
+                  <li>Response Task Creation Agent</li>
+                  <li>Observable Analysis &amp; Summarization Agent</li>
+                  <li>Observable Blocking Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-red"><div class="dot-label" style="background:var(--red)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Correlation insights generation</li>
+                  <li>Generate content for shift handover</li>
+                  <li>Post-incident analysis</li>
+                  <li>Resolution notes generation</li>
+                  <li>Security incident quality assessment</li>
+                  <li>Security incident recommended actions</li>
+                  <li>Security incident resolution plan</li>
+                  <li>Security incident summarization</li>
+                  <li>Security operations metrics analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ITOM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-orange">🔍</div>
+            <div class="p-header-text">
+              <h3>Now Assist for ITOM</h3>
+              <p>IT Operations Management — alert &amp; event AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Manage alerts autonomously</li>
+                  <li>Analyze alert impact</li>
+                  <li>Triage and analyze alerts</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Manage Alerts AI Agent</li>
+                  <li>Alert Information Retrieval Agent</li>
+                  <li>Alert Handling Agent</li>
+                  <li>New Relic Analysis AI Agent</li>
+                  <li>Kentik Analysis AI Agent</li>
+                  <li>Noise Deflector AI Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Alert analysis</li>
+                  <li>Alert investigation</li>
+                  <li>Analyze service health</li>
+                  <li>Analyze service observability dashboard</li>
+                  <li>LEAP installer</li>
+                  <li>Service Mapping Candidate</li>
+                  <li>Service mapping candidates Impact</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-purple">📊</div>
+            <div class="p-header-text">
+              <h3>Now Assist for SPM</h3>
+              <p>Strategic Portfolio Management — planning AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Generate my work plan</li>
+                  <li>Create stories</li>
+                  <li>Monitor project tasks</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Project Eligibility Analyzer</li>
+                  <li>Project Summarizer</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Create a demand</li>
+                  <li>EAP doc summarization</li>
+                  <li>Identify similar records</li>
+                  <li>Demand summarization</li>
+                  <li>Goal insights</li>
+                  <li>Multi feedback summarization</li>
+                  <li>Planning item doc summarization</li>
+                  <li>Project doc summarization</li>
+                  <li>Project insights generation</li>
+                  <li>Refine records</li>
+                  <li>Story generation</li>
+                  <li>Target generation</li>
+                  <li>Write planning item</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sourcing & Procurement -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-teal">📦</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Sourcing &amp; Procurement</h3>
+              <p>Sourcing and Procurement Operations (SPO) — source-to-pay AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Conversational intake for sourcing and procurement</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Procurement Product Recommendation AI Agent</li>
+                  <li>Procurement Request Tracking AI Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Negotiation summarization</li>
+                  <li>Procurement case summarization</li>
+                  <li>Purchase requisition summarization</li>
+                  <li>Sourcing event summarization</li>
+                  <li>Sourcing request summarization</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-yellow">⚖️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Legal</h3>
+              <p>Legal Service Delivery &amp; Matter Management AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Triage Legal Requests</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>AI Agent for Legal Request Triage</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Conversational intake for Conflict of Interest request</li>
+                  <li>Get category of the legal request</li>
+                  <li>Legal matter summarization</li>
+                  <li>Legal request summarization</li>
+                  <li>Triage legal request AI Search</li>
+                  <li>Triage legal request capability</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FSO -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-teal">🏦</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Financial Services Operations (FSO)</h3>
+              <p>Financial Services Operations — banking &amp; insurance AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Help resolve friendly fraud disputes</li>
+                  <li>Accelerate complaint case handling</li>
+                  <li>Complaint case triage agent</li>
+                  <li>Complaint case research agent</li>
+                  <li>Ticket creation AI agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-teal"><div class="dot-label" style="background:var(--teal)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Case summarization</li>
+                  <li>Disputes intake via Virtual Agent</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IRM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-orange">⚠️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Integrated Risk Management (IRM)</h3>
+              <p>Integrated Risk Management — risk &amp; compliance AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Identify risks for an entity</li>
+                  <li>Get regulatory analysis</li>
+                  <li>Generate regulatory action plans</li>
+                  <li>Optimize GRC issue resolution</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Risk Suggestion AI Agent</li>
+                  <li>Regulatory Alert Enrichment Agent</li>
+                  <li>Regulatory Alert Recommendation Agent</li>
+                  <li>Regulatory Change Task Planning Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Common control objective creation</li>
+                  <li>Control objective impact analyzer</li>
+                  <li>Generate recommendation for similar control objective</li>
+                  <li>Issue summarization</li>
+                  <li>Recommendations for regulatory alert impacted areas</li>
+                  <li>Recommendation of similar control objectives</li>
+                  <li>Regulatory alert summarization</li>
+                  <li>Regulatory alert impacted citations</li>
+                  <li>Regulatory alert impacted control objectives</li>
+                  <li>Regulatory alert impacted controls</li>
+                  <li>Regulatory alert impacted policies</li>
+                  <li>Risk assessment summarization</li>
+                  <li>Risk event summarization</li>
+                  <li>Risk event summarization in the classic UI</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TPRM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-orange">🤝</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Third-party Risk Management (TPRM)</h3>
+              <p>Third-party Risk Management — vendor risk AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-orange"><div class="dot-label" style="background:var(--orange)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>TPRM issue summarization</li>
+                  <li>TPRM issue management recommendation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vulnerability Response -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-red">🔓</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Vulnerability Response</h3>
+              <p>Vulnerability Response — vulnerability management AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-red"><div class="dot-label" style="background:var(--red)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Analyze Vulnerability Remediation Status</li>
+                  <li>Assess Vulnerability Exposure</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-red"><div class="dot-label" style="background:var(--red)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Remediation Compliance Insights Provider</li>
+                  <li>Vulnerability Response Action Executor</li>
+                  <li>Vulnerability Exposure Assessment Advisor</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-red"><div class="dot-label" style="background:var(--red)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Approval recommendation</li>
+                  <li>Now Assist recommendation</li>
+                  <li>SEM insights</li>
+                  <li>SPC setup connector</li>
+                  <li>Suggest vulnerability solutions</li>
+                  <li>Vulnerable item deduplication</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Management -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-purple">🔒</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Privacy Management</h3>
+              <p>Privacy Management — data privacy &amp; compliance AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Control objective impact analyzer</li>
+                  <li>Common control objective creation</li>
+                  <li>Recommendation of similar control objectives</li>
+                  <li>Risk assessment summary</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contract Management -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-yellow">📄</div>
+            <div class="p-header-text">
+              <h3>Now Assist in Contract Management</h3>
+              <p>Contract Management — contract lifecycle AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Conversational Contract Search and Insights</li>
+                  <li>Manage contract repository</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Contract Record Handler AI Agent</li>
+                  <li>Calculate Contract Lead Time AI Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-yellow"><div class="dot-label" style="background:var(--yellow)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Contract analysis</li>
+                  <li>Contract metadata extraction</li>
+                  <li>Contract obligation extraction</li>
+                  <li>Conversational contract search and insights</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Employee Experience -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-purple">🧑‍💼</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Employee Experience</h3>
+              <p>Employee Experience — approval &amp; request AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-purple"><div class="dot-label" style="background:var(--purple)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Requested item summarization for approvals</li>
+                  <li>Request summarization for approvals</li>
+                  <li>Case summarization for approvals</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAM -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-blue">💾</div>
+            <div class="p-header-text">
+              <h3>Now Assist for Software Asset Management (SAM)</h3>
+              <p>Software Asset Management — license &amp; compliance AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Help manage hardware asset requests</li>
+                  <li>Help manage software request</li>
+                  <li>Help repair hardware assets</li>
+                  <li>Create software reclamation rule</li>
+                  <li>Evaluate software removal candidate</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Transfer Order Creation AI Agent</li>
+                  <li>Hardware Asset Management Sourcing AI Agent</li>
+                  <li>Purchase Order Creation AI Agent</li>
+                  <li>Software Entitlement Allocation AI Agent</li>
+                  <li>Repair Asset AI Agent</li>
+                  <li>Software Reclamation Rule Creation AI Agent</li>
+                  <li>Software Removal Candidate Evaluation AI Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Publisher compliance summarization</li>
+                  <li>Product compliance summarization</li>
+                  <li>Recommended actions</li>
+                  <li>SaaS user resolution</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- App Engine -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-blue">🛠️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for App Engine</h3>
+              <p>App Engine — custom application AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-blue"><div class="dot-label" style="background:var(--blue)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Custom app record summarization</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CMDB -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-green">🗄️</div>
+            <div class="p-header-text">
+              <h3>Now Assist for CMDB</h3>
+              <p>Configuration Management Database — CI management AI</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Search CMDB</li>
+                  <li>CMDB Governance</li>
+                  <li>CI Creator</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>CI Ownership Agent</li>
+                  <li>CMDB Health Agent</li>
+                  <li>CMDB Data Certification Agent</li>
+                  <li>Principal CI Classes Agent</li>
+                  <li>CMDB Data Manager Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Configuration item (CI) summarization</li>
+                  <li>Manage duplicate CIs</li>
+                  <li>Service Graph Connector diagnosis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Now Assist Platform -->
+        <div class="p-card">
+          <div class="p-header" onclick="toggle(this.parentElement)">
+            <div class="p-icon bg-green">🧩</div>
+            <div class="p-header-text">
+              <h3>Now Assist Platform</h3>
+              <p>Cross-product AI capabilities — works across all workflows</p>
+            </div>
+            <span class="p-chevron">▼</span>
+          </div>
+          <div class="p-body">
+            <div class="p-body-cols">
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Agentic Workflows</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Email Intent to Action</li>
+                  <li>Propose survey responses</li>
+                  <li>Suggest survey responses</li>
+                  <li>Generate resolution plans</li>
+                  <li>Classify tasks</li>
+                  <li>Process emails for tasks</li>
+                  <li>Manage Microsoft 365 group members</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Agents</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Request Status Agent</li>
+                  <li>Approval Assistance Agent</li>
+                </ul>
+              </div>
+              <div class="p-col-label c-green"><div class="dot-label" style="background:var(--green)"></div>Skills</div>
+              <div class="p-col">
+                <ul class="p-items">
+                  <li>Article optimization</li>
+                  <li>Complete record generation</li>
+                  <li>Conversational Help</li>
+                  <li>Document summarization</li>
+                  <li>Extract information from documents</li>
+                  <li>GAF skills</li>
+                  <li>Knowledge content recommendation</li>
+                  <li>Multimodal chat</li>
+                  <li>Navigation</li>
+                  <li>New column data generation</li>
+                  <li>Potential knowledge gaps</li>
+                  <li>Requester approval checklist</li>
+                  <li>ServiceNow Lens</li>
+                  <li>TextToResult</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /product-grid -->
+    </div><!-- /layer-3 -->
+
+  </div><!-- /hierarchy -->
+
+  <!-- ════ PLATFORM FOUNDATION DETAIL SECTIONS ════ -->
+  <hr class="detail-divider">
+
+  <!-- Detail: Model Provider Flexibility -->
+  <section class="detail-section" id="detail-model-providers">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🔄</div>
+        <div>
+          <div class="detail-title">Model Provider Flexibility</div>
+          <div class="detail-sub">Four provider deployment modes — Now LLM Service, Integrated Models (SN-managed or BYOK), BYOK LLM, or BYO LLM. Each skill routes to its own model independently with no platform-wide lock-in.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <div style="margin-bottom:16px">
+      <a href="https://www.servicenow.com/docs/r/intelligent-experiences/servicenow-large-language-model-now-llm/exploring-large-language-models.html" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product documentation →</a>
+      <a href="https://www.servicenow.com/community/now-assist-articles/using-external-llms-with-now-assist-including-byok-byollm/ta-p/3218103" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;margin-left:16px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">BYOK &amp; BYO LLM guide →</a>
+    </div>
+    <div class="tier-bridge">All provider modes governed by GenAI Controller &mdash; consistent developer experience, centralized policy enforcement</div>
+    <div class="tier-grid" style="margin-top:16px">
+
+      <!-- Now LLM Service -->
+      <div class="tier-col" style="border-top:3px solid var(--green)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(99,223,78,0.12);color:var(--green);border:1px solid rgba(99,223,78,0.3)">SN</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">SN-Native &mdash; ServiceNow Managed</div>
+            <div class="tier-name">Now LLM Service</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">SN-developed and SN-curated models optimized for enterprise workflows. Processed entirely within ServiceNow&rsquo;s platform.</div>
+          <ul class="tier-list">
+            <li style="--dot:var(--green)">Fast summarization, Q&amp;A, content generation</li>
+            <li style="--dot:var(--green)">Multi-step agentic workflows</li>
+          </ul>
+          <div class="tier-lts"><strong>LTS Variant:</strong> Designed for regulated industries. Predictable AI updates, longer model stability windows.</div>
+          <div class="tier-tag" style="background:rgba(99,223,78,0.08);color:var(--green-l);border:1px solid rgba(99,223,78,0.18)">Data stays within ServiceNow &middot; Default provider</div>
+        </div>
+      </div>
+
+      <!-- Integrated Models -->
+      <div class="tier-col" style="border-top:3px solid var(--blue)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(79,195,247,0.12);color:var(--blue);border:1px solid rgba(79,195,247,0.3)">IM</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">SN-Managed or BYOK &mdash; Integrated Providers</div>
+            <div class="tier-name">Integrated Models</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">SN manages contracts and versioning by default, or bring your own keys. All OOTB skills and AI Agents supported. Data stays within ServiceNow&rsquo;s platform.</div>
+          <div class="tier-providers">
+            <div class="tier-provider-row">
+              <div class="tier-picon" style="color:var(--blue)">&#9670;</div>
+              <div><div class="tier-pname">Microsoft Azure OpenAI</div><div class="tier-pdetail">GPT-4.1 &amp; GPT-4.1-mini &middot; Developer productivity, complex reasoning</div></div>
+            </div>
+            <div class="tier-provider-row">
+              <div class="tier-picon" style="color:var(--teal)">&#9670;</div>
+              <div><div class="tier-pname">Google Gemini</div><div class="tier-pdetail">2.5 Flash &amp; 2.5 Pro &middot; Incident analysis, security alerts</div></div>
+            </div>
+            <div class="tier-provider-row">
+              <div class="tier-picon" style="color:var(--orange)">&#9670;</div>
+              <div><div class="tier-pname">AWS Claude</div><div class="tier-pdetail">Claude 3.7 Sonnet via Bedrock &middot; Sensitive HR/legal, policy summarization</div></div>
+            </div>
+          </div>
+          <div class="tier-tag" style="background:rgba(79,195,247,0.08);color:var(--blue);border:1px solid rgba(79,195,247,0.18)">SN-managed or your keys &middot; Data stays within ServiceNow</div>
+        </div>
+      </div>
+
+      <!-- BYOK LLM (Spokes) -->
+      <div class="tier-col" style="border-top:3px solid var(--orange)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(245,166,35,0.12);color:var(--orange);border:1px solid rgba(245,166,35,0.3)">BK</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">BYOK &mdash; Customer-Managed Keys</div>
+            <div class="tier-name">BYOK LLM</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">Customer manages their own API keys for non-integrated providers. Data flows to customer&rsquo;s provider under their enterprise terms.</div>
+          <ul class="tier-list">
+            <li style="--dot:var(--orange)">OpenAI (direct), IBM WatsonX</li>
+            <li style="--dot:var(--orange)">Google Vertex AI, Google Gemini AI Studio</li>
+            <li style="--dot:var(--orange)">AWS Bedrock</li>
+            <li style="--dot:var(--orange)">OOTB skills supported (limited)</li>
+            <li style="--dot:var(--orange)">AI Agents &amp; Agentic Workflows &mdash; limited support</li>
+          </ul>
+          <div class="tier-tag" style="background:rgba(245,166,35,0.08);color:var(--orange);border:1px solid rgba(245,166,35,0.18)">Your keys &middot; Your provider agreement</div>
+        </div>
+      </div>
+
+      <!-- BYO LLM -->
+      <div class="tier-col" style="border-top:3px solid var(--muted)">
+        <div class="tier-col-head">
+          <div class="tier-indicator" style="background:rgba(122,155,173,0.1);color:var(--muted);border:1px solid rgba(122,155,173,0.25)">YO</div>
+          <div class="tier-col-head-text">
+            <div class="tier-meta">BYO LLM &mdash; Generic Connector</div>
+            <div class="tier-name">BYO LLM</div>
+          </div>
+        </div>
+        <div class="tier-col-body">
+          <div class="tier-body">Connect any external or self-hosted model via Generic LLM Connector. On-premise, regional, or proprietary fine-tuned models.</div>
+          <ul class="tier-list">
+            <li style="--dot:var(--muted)">API key + endpoint + transformer script</li>
+            <li style="--dot:var(--muted)">Fallback/failover chain supported</li>
+          </ul>
+          <div class="tier-warning" style="color:var(--orange);background:rgba(245,166,35,0.06);border-color:rgba(245,166,35,0.15)">&#9888;&#65039; OOTB Agents and Agentic Workflows are not supported. Only basic custom skills are supported &mdash; OOTB skills require cloning.</div>
+          <div class="tier-tag" style="background:rgba(122,155,173,0.06);color:var(--muted);border:1px solid rgba(122,155,173,0.15)">Your model &middot; Your infrastructure</div>
+        </div>
+      </div>
+
+    </div>
+    <div style="margin-top:28px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px">Provider Governance</div>
+      <div class="gov3-grid">
+        <div class="gov3-card" style="border-top:3px solid var(--green)">
+          <span class="gov3-icon">🛡️</span>
+          <div class="gov3-role">AI Stewards</div>
+          <div class="gov3-scope">AI Control Tower</div>
+          <div class="gov3-desc">Define enterprise-wide approved providers, data routing rules, fallback logic, and regional compliance policies.</div>
+        </div>
+        <div class="gov3-card" style="border-top:3px solid var(--blue)">
+          <span class="gov3-icon">⚙️</span>
+          <div class="gov3-role">Administrators</div>
+          <div class="gov3-scope">Now Assist Admin Console</div>
+          <div class="gov3-desc">Assign approved providers at instance, functional group, or individual skill level.</div>
+        </div>
+        <div class="gov3-card" style="border-top:3px solid var(--purple)">
+          <span class="gov3-icon">🔧</span>
+          <div class="gov3-role">Developers</div>
+          <div class="gov3-scope">Now Assist Skill Kit</div>
+          <div class="gov3-desc">Select providers per custom skill without managing external integrations.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detail: Generative AI Controller -->
+  <section class="detail-section" id="detail-genai-controller">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🔌</div>
+        <div>
+          <div class="detail-title">Generative AI Controller</div>
+          <div class="detail-sub">The connection layer between Now Assist and all LLM providers. Every AI call flows through the Controller for prompt governance, data privacy, content moderation, and provider routing.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <div class="intel-caps">
+      <div class="intel-cap">
+        <div class="intel-cap-name">Data Privacy for Now Assist</div>
+        <div class="intel-cap-desc">PII masking before prompts reach any LLM. OOTB patterns for SSNs, credit cards, emails, phone numbers, national IDs. Works with all providers.</div>
+      </div>
+      <div class="intel-cap">
+        <div class="intel-cap-name">Now Assist Guardian</div>
+        <div class="intel-cap-desc">Content moderation across safety and security categories including toxicity, bias, false advice, prompt injection, and jailbreaking. Offensiveness opt-in per workflow or agentic &mdash; admins enable on configured skills and AI Agent Studio. Prompt injection opt-in is instance-wide.</div>
+      </div>
+      <div class="intel-cap">
+        <div class="intel-cap-name">LLM Provider Routing</div>
+        <div class="intel-cap-desc">Pre-built Integration Hub connectors per provider. Swap models at the skill, skill group, or instance level without code changes.</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:4px">Skills and agents are written once. Which model executes them is a configuration decision managed through Now Assist Admin. PII masking, content filtering, and audit logging apply across all providers.</p>
+  </section>
+
+  <!-- Detail: AI Control Tower -->
+  <section class="detail-section" id="detail-control-tower">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🛡️</div>
+        <div>
+          <div class="detail-title">AI Control Tower</div>
+          <div class="detail-sub">Platform-wide governance. Monitor usage, manage AI asset inventory, enforce compliance policies, and audit every AI interaction across all products. Guardrail settings (Data Privacy, Now Assist Guardian) are configured in Now Assist Admin / AI Agent Studio.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Centralized command center for governing all AI assets &mdash; including non-ServiceNow AI. Auto-discovers from AWS Bedrock and Azure AI Foundry; stores in CMDB via CSDM 5. Guardrail settings (Data Privacy, Now Assist Guardian) are configured in Now Assist Admin / AI Agent Studio.
+      <a href="https://www.servicenow.com/docs/r/intelligent-experiences/ai-control-tower/exploring-ai-control-tower.html" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;margin-top:4px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product documentation →</a>
+      <a href="https://www.servicenow.com/products/ai-control-tower.html" target="_blank" rel="noopener" style="color:var(--green);font-size:10px;display:inline-block;margin-top:4px;margin-left:16px;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Product page →</a></p>
+
+    <div class="ct-pillars">
+
+      <div class="ct-pillar" style="--_accent: var(--green)">
+        <div class="ct-pillar-head">
+          <div class="ct-pillar-icon">📡</div>
+          <div class="ct-pillar-title">Enterprise AI<br>Integrations</div>
+        </div>
+        <div class="ct-pillar-desc">Discover and catalog AI assets from across the enterprise &mdash; internal and external.</div>
+        <div class="ct-pillar-tags">
+          <span class="ct-pillar-tag">Now Assist asset discovery</span>
+          <span class="ct-pillar-tag">AWS Bedrock discovery</span>
+          <span class="ct-pillar-tag">Azure AI Foundry discovery</span>
+          <span class="ct-pillar-tag">CMDB-backed (CSDM 5)</span>
+          <span class="ct-pillar-tag">AI Gateway</span>
+        </div>
+      </div>
+
+      <div class="ct-pillar" style="--_accent: var(--blue)">
+        <div class="ct-pillar-head">
+          <div class="ct-pillar-icon">⚖️</div>
+          <div class="ct-pillar-title">AI Governance<br>&amp; Compliance</div>
+        </div>
+        <div class="ct-pillar-desc">Ensure AI systems follow company policies and global regulations &mdash; privacy, data governance, and ethical AI.</div>
+        <div class="ct-pillar-tags">
+          <span class="ct-pillar-tag">EU AI Act</span>
+          <span class="ct-pillar-tag">NIST AI RMF</span>
+          <span class="ct-pillar-tag">ISO/IEC 42001</span>
+          <span class="ct-pillar-tag">GDPR</span>
+          <span class="ct-pillar-tag">HIPAA</span>
+          <span class="ct-pillar-tag">Bias &amp; fairness audits</span>
+        </div>
+      </div>
+
+      <div class="ct-pillar" style="--_accent: var(--red)">
+        <div class="ct-pillar-head">
+          <div class="ct-pillar-icon">🔐</div>
+          <div class="ct-pillar-title">Security, Access<br>&amp; Privacy</div>
+        </div>
+        <div class="ct-pillar-desc">Manage AI agent identities, access controls, and sensitive data to ensure security.</div>
+        <div class="ct-pillar-tags">
+          <span class="ct-pillar-tag">Role-based access control</span>
+          <span class="ct-pillar-tag">AI agent identity management</span>
+          <span class="ct-pillar-tag">Data routing policies</span>
+          <span class="ct-pillar-tag">Model provider approval</span>
+        </div>
+      </div>
+
+      <div class="ct-pillar" style="--_accent: var(--purple)">
+        <div class="ct-pillar-head">
+          <div class="ct-pillar-icon">🔄</div>
+          <div class="ct-pillar-title">Lifecycle<br>Management</div>
+        </div>
+        <div class="ct-pillar-desc">Handle the full lifecycle of AI assets &mdash; onboarding, assessment, deployment, monitoring, and retirement.</div>
+        <div class="ct-pillar-tags">
+          <span class="ct-pillar-tag">New</span>
+          <span class="ct-pillar-tag">&rarr; Assess</span>
+          <span class="ct-pillar-tag">&rarr; Build/Test</span>
+          <span class="ct-pillar-tag">&rarr; Deploy</span>
+          <span class="ct-pillar-tag">&rarr; Operate</span>
+          <span class="ct-pillar-tag">&rarr; Retire</span>
+        </div>
+      </div>
+
+      <div class="ct-pillar" style="--_accent: var(--teal)">
+        <div class="ct-pillar-head">
+          <div class="ct-pillar-icon">📊</div>
+          <div class="ct-pillar-title">Health &amp;<br>Performance</div>
+        </div>
+        <div class="ct-pillar-desc">Evaluate how reliably and efficiently AI systems operate. Track usage, cost, and drift.</div>
+        <div class="ct-pillar-tags">
+          <span class="ct-pillar-tag">Assist consumption tracking</span>
+          <span class="ct-pillar-tag">Third-party AI cost tracking</span>
+          <span class="ct-pillar-tag">Drift detection</span>
+          <span class="ct-pillar-tag">Performance monitoring</span>
+        </div>
+      </div>
+
+      <div class="ct-pillar" style="--_accent: var(--orange)">
+        <div class="ct-pillar-head">
+          <div class="ct-pillar-icon">🎯</div>
+          <div class="ct-pillar-title">AI Strategy<br>&amp; Value</div>
+        </div>
+        <div class="ct-pillar-desc">Track how AI improves efficiency, revenue, and cost savings. Align AI investments with business strategy.</div>
+        <div class="ct-pillar-tags">
+          <span class="ct-pillar-tag">AI Control Tower dashboard</span>
+          <span class="ct-pillar-tag">Product Owner portal</span>
+          <span class="ct-pillar-tag">AI asset data model</span>
+          <span class="ct-pillar-tag">Value realization</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Detail: AI Agent Orchestrator -->
+  <section class="detail-section" id="detail-orchestrator">
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-icon">🤝</div>
+        <div>
+          <div class="detail-title">AI Agent Orchestrator</div>
+          <div class="detail-sub">Coordinates multi-agent workflows. Manages handoffs between agents, resolves conflicts, and tracks state across long-running agentic tasks.</div>
+        </div>
+      </div>
+      <span class="detail-back" onclick="scrollToTop()">↑ Back to top</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px">Runtime coordination layer managing how multiple agents collaborate &mdash; ensuring reliability and full auditability on every multi-agent execution.</p>
+    <div class="gov-groups">
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--blue)">Coordination</div>
+        <ul class="gov-list">
+          <li>Task routing to specialist agents</li>
+          <li>Three planner strategies: Base (linear), ReActive (iterative), Batch (parallel with dependencies)</li>
+          <li>Context passing with full state preservation</li>
+        </ul>
+      </div>
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--blue)">Reliability</div>
+        <ul class="gov-list">
+          <li>Error management and re-routing of failed tasks</li>
+          <li>Human-in-the-loop checkpoint management</li>
+          <li>Escalation triggers based on time, action count, or sentiment</li>
+        </ul>
+      </div>
+      <div class="gov-group">
+        <div class="gov-group-label" style="color:var(--blue)">Interoperability</div>
+        <ul class="gov-list">
+          <li>MCP (Model Context Protocol) for external tool connections</li>
+          <li>A2A (Agent-to-Agent) for external AI integration</li>
+          <li>Full execution trace with plan, task, tool, and message-level logging</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>Now Assist — ServiceNow GenAI Portfolio &nbsp;·&nbsp; Zurich Release 2025–2026 &nbsp;·&nbsp;
+      <a href="https://www.servicenow.com/now-assist.html" target="_blank">servicenow.com/now-assist</a>
+    </p>
+  </div>
+
+  <script>
+    function toggle(card) {
+      card.classList.toggle('open');
+    }
+    function scrollToDetail(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
