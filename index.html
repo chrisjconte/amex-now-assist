@@ -546,6 +546,18 @@
     .trust-pillar:hover {
       box-shadow: 0 4px 24px rgba(0,0,0,0.25);
     }
+    .arch-trigger {
+      animation: archPulse 2.5s ease-in-out infinite;
+    }
+    .arch-trigger:hover {
+      animation: none;
+      border-color: rgba(79,195,247,0.6) !important;
+      box-shadow: 0 4px 24px rgba(79,195,247,0.2);
+    }
+    @keyframes archPulse {
+      0%, 100% { border-color: rgba(79,195,247,0.25); }
+      50% { border-color: rgba(79,195,247,0.55); box-shadow: 0 0 12px rgba(79,195,247,0.12); }
+    }
     .trust-pillar-head {
       padding: 16px 18px 14px;
       display: flex;
@@ -1037,8 +1049,8 @@
       background: linear-gradient(165deg, #021e2e 0%, #01192a 100%);
       border: 1px solid var(--border2);
       border-radius: 18px;
-      width: 94%; max-width: 960px;
-      max-height: 90vh;
+      width: 96%; max-width: 1400px;
+      max-height: 95vh;
       overflow-y: auto;
       box-shadow: 0 40px 120px rgba(0,0,0,0.7);
       transform: translateY(20px) scale(0.97);
@@ -2726,14 +2738,15 @@
         </div>
 
         <!-- ARCHITECTURE -->
-        <div class="trust-pillar" onclick="openArchModal()" style="background:rgba(79,195,247,0.03)">
+        <div class="trust-pillar arch-trigger" onclick="openArchModal()" style="background:rgba(79,195,247,0.03);border:1px solid rgba(79,195,247,0.25)">
           <div class="trust-pillar-head">
             <div class="trust-pillar-icon" style="background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);color:var(--blue)">&#9881;</div>
             <div class="trust-pillar-head-text">
               <div class="trust-pillar-label" style="color:var(--blue)">Architecture</div>
               <div class="trust-pillar-thesis">All data stays within ServiceNow&rsquo;s platform boundary. Private endpoints, regional processing, no customer tenant routing.</div>
+              <div style="margin-top:6px;font-size:10px;color:var(--blue);opacity:0.8;font-weight:600;letter-spacing:0.5px">&#128269; Click to view full architecture diagram</div>
             </div>
-            <div class="trust-pillar-chevron" style="transform:none">&#8599;</div>
+            <div class="trust-pillar-chevron" style="transform:none;font-size:18px">&#8599;</div>
           </div>
         </div>
 
